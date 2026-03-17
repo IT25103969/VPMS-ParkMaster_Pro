@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ParkMaster</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Critical Auth Check in Head to prevent flashing
+        if (!sessionStorage.getItem('adminToken')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-item-active {
+            background: rgba(59, 130, 246, 0.15);
+            border-left: 3px solid #3b82f6;
+            color: #3b82f6;
+        }
+        body {
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            min-height: 100vh;
+        }
+        .slot-free {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .slot-occupied {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-200 font-sans flex overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 h-screen glass border-r border-white/10 flex flex-col shrink-0">
+        <div class="p-8 border-b border-white/10">
+            <h1 class="text-xl font-bold tracking-tight text-white">ParkMaster <span class="text-blue-500">Pro</span></h1>
+        </div>
+        
+        <nav class="flex-grow mt-8 px-4 space-y-1">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-item w-full flex items-center px-4 py-3 rounded-md hover:bg-white/5 transition-all text-sm font-medium">
+                Dashboard
+            </button>
+            <button onclick="switchTab('revenue')" id="nav-revenue" class="sidebar-item w-full flex items-center px-4 py-3 rounded-md hover:bg-white/5 transition-all text-sm font-medium">
+                Revenue Logs
+            </button>
+            <button onclick="switchTab('settings')" id="nav-settings" class="sidebar-item w-full flex items-center px-4 py-3 rounded-md hover:bg-white/5 transition-all text-sm font-medium">
+                System Settings
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-white/10">
+            <button id="logout-btn" class="w-full flex items-center px-4 py-3 rounded-md text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all text-sm font-medium">
+                Sign Out
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow h-screen overflow-y-auto p-10 relative">
+        
+        <!-- Tab: Dashboard -->
+        <div id="tab-dashboard" class="tab-content">
+            <header class="mb-10 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-semibold text-white">Parking Overview</h2>
+                    <p class="text-slate-500 text-sm mt-1">Real-time status of all managed parking slots.</p>
+                </div>
+                <button onclick="showEntryModal()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm font-semibold transition-all shadow-lg active:scale-95">
+                    Register Entry
+                </button>
+            </header>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4" id="slots-container">
+                <!-- Slots injected here -->
+            </div>
+        </div>
+
+        <!-- Tab: Revenue -->
+        <div id="tab-revenue" class="tab-content hidden">
+            <h2 class="text-2xl font-semibold text-white mb-8">Financial Summary</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass p-6 rounded-xl border border-white/5">
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Today's Revenue</p>
+                    <p class="text-3xl font-bold mt-2 text-white" id="stat-revenue-today">$0.00</p>
+                </div>
+                <div class="glass p-6 rounded-xl border border-white/5">
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Total Earnings</p>
+                    <p class="text-3xl font-bold mt-2 text-white" id="stat-revenue-total">$0.00</p>
+                </div>
+                <div class="glass p-6 rounded-xl border border-white/5">
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Current Occupancy</p>
+                    <p class="text-3xl font-bold mt-2 text-white"><span id="stat-active-slots">0</span> <span class="text-sm text-slate-600 font-normal">Active</span></p>
+                </div>
+            </div>
+
+            <div class="glass rounded-xl overflow-hidden border border-white/5">
+                <div class="p-5 border-b border-white/10 bg-white/5">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Recent Transactions</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="text-slate-500 border-b border-white/5">
+                                <th class="p-4 font-semibold uppercase tracking-wider">Reference</th>
+                                <th class="p-4 font-semibold uppercase tracking-wider">Vehicle ID</th>
+                                <th class="p-4 font-semibold uppercase tracking-wider">Slot</th>
+                                <th class="p-4 font-semibold uppercase tracking-wider">Duration</th>
+                                <th class="p-4 font-semibold uppercase tracking-wider text-right">Fee</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-history-body" class="divide-y divide-white/5">
+                            <!-- Rows injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Settings -->
+        <div id="tab-settings" class="tab-content hidden">
+            <h2 class="text-2xl font-semibold text-white mb-8">System Configuration</h2>
+            
+            <div class="space-y-6 max-w-2xl">
+                <!-- Pricing -->
+                <div class="glass p-8 rounded-xl border border-white/5">
+                    <h3 class="text-lg font-medium mb-4">Pricing Policy</h3>
+                    <div class="flex gap-4 items-end">
+                        <div class="flex-grow">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Hourly Rate ($)</label>
+                            <input type="number" id="hourly-rate-input" step="0.5" 
+                                class="w-full px-4 py-2.5 rounded bg-white/5 border border-white/10 focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <button id="update-rate-btn" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded font-semibold transition-all">
+                            Update
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Capacity -->
+                <div class="glass p-8 rounded-xl border border-white/5">
+                    <h3 class="text-lg font-medium mb-4">Capacity Management</h3>
+                    <div class="flex gap-4 items-end">
+                        <div class="flex-grow">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Total Parking Slots</label>
+                            <input type="number" id="slot-count-input" min="1"
+                                class="w-full px-4 py-2.5 rounded bg-white/5 border border-white/10 focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <button id="update-slots-btn" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded font-semibold transition-all">
+                            Adjust Scale
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-4 italic font-medium">Caution: Reducing capacity is only permitted if the trailing slots are currently vacant.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Entry Modal -->
+    <div id="entry-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center z-50 p-4">
+        <div class="glass p-8 rounded-xl w-full max-w-md border border-white/10">
+            <h3 class="text-xl font-bold mb-6 text-white text-center">Vehicle Registration</h3>
+            <form id="entry-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Plate Identifier</label>
+                    <input type="text" id="vehicle-number" required 
+                        class="w-full px-4 py-3 rounded bg-white/5 border border-white/10 focus:outline-none focus:border-blue-500 transition-all uppercase text-lg tracking-widest text-white">
+                </div>
+                <div class="flex gap-3 pt-6">
+                    <button type="button" onclick="hideModals()" class="flex-grow py-3 px-4 bg-white/5 hover:bg-white/10 rounded font-bold transition-all text-sm">Cancel</button>
+                    <button type="submit" class="flex-grow py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded font-bold transition-all text-sm">Authorize Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Exit Confirmation Modal -->
+    <div id="exit-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center z-50 p-4">
+        <div class="glass p-8 rounded-xl w-full max-w-md border border-white/10">
+            <h3 class="text-xl font-bold mb-2 text-white text-center">Process Departure</h3>
+            <p class="text-slate-400 text-sm text-center mb-8">Confirming exit for Slot <span id="exit-slot-number" class="text-blue-500 font-bold"></span>.</p>
+            <div class="flex gap-3">
+                <button type="button" onclick="hideModals()" class="flex-grow py-3 px-4 bg-white/5 hover:bg-white/10 rounded font-bold transition-all text-sm">Cancel</button>
+                <button id="confirm-exit-btn" class="flex-grow py-3 px-4 bg-red-600 hover:bg-red-700 rounded font-bold transition-all text-sm">Finalize Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedSlotId = null;
+
+        // Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('sidebar-item-active'));
+            
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('nav-' + tabId).classList.add('sidebar-item-active');
+            
+            if (tabId === 'dashboard') fetchSlots();
+            if (tabId === 'revenue') { fetchStats(); fetchHistory(); }
+            if (tabId === 'settings') { fetchRate(); fetchSlotCount(); }
+        }
+
+        // Initialize with dashboard
+        switchTab('dashboard');
+
+        document.getElementById('logout-btn').onclick = () => {
+            sessionStorage.removeItem('adminToken');
+            window.location.href = 'login.html';
+        };
+
+        async function fetchSlots() {
+            const res = await fetch('/api/slots');
+            const slots = await res.json();
+            const container = document.getElementById('slots-container');
+            container.innerHTML = '';
+            
+            slots.forEach(slot => {
+                const div = document.createElement('div');
+                const isOccupied = slot.occupied !== undefined ? slot.occupied : slot.isOccupied;
+                div.className = `p-6 rounded border transition-all hover:bg-white/5 text-center cursor-pointer ${isOccupied ? 'slot-occupied' : 'slot-free'}`;
+                div.innerHTML = `
+                    <div class="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-1">Slot</div>
+                    <div class="text-lg font-bold text-white">${slot.slotNumber}</div>
+                    <div class="mt-2 text-[9px] font-bold uppercase tracking-wider ${isOccupied ? 'text-red-400' : 'text-green-500'}">
+                        ${isOccupied ? 'Occupied' : 'Free'}
+                    </div>
+                `;
+                div.onclick = () => {
+                    if (isOccupied) {
+                        selectedSlotId = slot.id;
+                        document.getElementById('exit-slot-number').textContent = slot.slotNumber;
+                        document.getElementById('exit-modal').classList.remove('hidden');
+                    } else {
+                        showEntryModal();
+                    }
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function showEntryModal() {
+            document.getElementById('entry-modal').classList.remove('hidden');
+            document.getElementById('vehicle-number').focus();
+        }
+
+        function hideModals() {
+            document.getElementById('entry-modal').classList.add('hidden');
+            document.getElementById('exit-modal').classList.add('hidden');
+        }
+
+        document.getElementById('entry-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const vehicleNumber = document.getElementById('vehicle-number').value;
+            const res = await fetch('/api/tickets/entry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ vehicleNumber })
+            });
+            if (res.ok) {
+                hideModals();
+                document.getElementById('vehicle-number').value = '';
+                fetchSlots();
+            } else {
+                alert(await res.text());
+            }
+        };
+
+        document.getElementById('confirm-exit-btn').onclick = async () => {
+            const res = await fetch(`/api/tickets/exit/${selectedSlotId}`, { method: 'POST' });
+            if (res.ok) {
+                const t = await res.json();
+                alert(`Exit Finalized. Amount: $${t.amount.toFixed(2)}`);
+                hideModals();
+                fetchSlots();
+            }
+        };
+
+        async function fetchStats() {
+            const res = await fetch('/api/admin/revenue/stats');
+            const data = await res.json();
+            document.getElementById('stat-revenue-today').textContent = `$${data.today.toFixed(2)}`;
+            document.getElementById('stat-revenue-total').textContent = `$${data.total.toFixed(2)}`;
+            document.getElementById('stat-active-slots').textContent = data.activeCount;
+        }
+
+        async function fetchHistory() {
+            const res = await fetch('/api/tickets/history');
+            const tickets = await res.json();
+            const body = document.getElementById('admin-history-body');
+            body.innerHTML = '';
+            tickets.sort((a, b) => b.id - a.id).forEach(t => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-white/[0.02] transition-all";
+                tr.innerHTML = `
+                    <td class="p-4 text-slate-500 font-mono text-[10px]">REF-${t.id}</td>
+                    <td class="p-4 font-bold uppercase tracking-wider">${t.vehicleNumber}</td>
+                    <td class="p-4"><span class="px-2 py-1 bg-white/5 rounded text-[10px] font-bold">${t.slot ? t.slot.slotNumber : '---'}</span></td>
+                    <td class="p-4 text-slate-400 text-xs">${t.exitTime ? calculateDuration(t.entryTime, t.exitTime) : 'Active'}</td>
+                    <td class="p-4 font-bold text-white text-right">${t.amount ? '$' + t.amount.toFixed(2) : '---'}</td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function calculateDuration(start, end) {
+            const diff = new Date(end) - new Date(start);
+            const hrs = Math.floor(diff / 3600000);
+            const mins = Math.round((diff % 3600000) / 60000);
+            return `${hrs}h ${mins}m`;
+        }
+
+        async function fetchRate() {
+            const res = await fetch('/api/admin/rate');
+            const data = await res.json();
+            document.getElementById('hourly-rate-input').value = data.rate;
+        }
+
+        async function fetchSlotCount() {
+            const res = await fetch('/api/admin/slots/count');
+            const data = await res.json();
+            document.getElementById('slot-count-input').value = data.count;
+        }
+
+        document.getElementById('update-rate-btn').onclick = async () => {
+            const rate = document.getElementById('hourly-rate-input').value;
+            const res = await fetch('/api/admin/rate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ rate: parseFloat(rate) })
+            });
+            if (res.ok) alert('Pricing configuration updated.');
+        };
+
+        document.getElementById('update-slots-btn').onclick = async () => {
+            const count = document.getElementById('slot-count-input').value;
+            const res = await fetch('/api/admin/slots/count', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ count: parseInt(count) })
+            });
+            if (res.ok) {
+                alert('System capacity scaled.');
+                fetchSlots();
+            } else {
+                alert('Error: ' + await res.text());
+            }
+        };
+
+        // Background sync
+        setInterval(() => {
+            if (!document.getElementById('tab-dashboard').classList.contains('hidden')) fetchSlots();
+        }, 15000);
+    </script>
+</body>
+</html>
