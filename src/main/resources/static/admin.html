@@ -244,14 +244,17 @@
                         document.getElementById('exit-slot-number').textContent = slot.slotNumber;
                         document.getElementById('exit-modal').classList.remove('hidden');
                     } else {
-                        showEntryModal();
+                        showEntryModal(slot.id, slot.slotNumber);
                     }
                 };
                 container.appendChild(div);
             });
         }
 
-        function showEntryModal() {
+        function showEntryModal(slotId = null, slotNumber = null) {
+            selectedSlotId = slotId;
+            const title = slotNumber ? `Register Entry - Slot ${slotNumber}` : 'Vehicle Registration';
+            document.querySelector('#entry-modal h3').textContent = title;
             document.getElementById('entry-modal').classList.remove('hidden');
             document.getElementById('vehicle-number').focus();
         }
@@ -259,6 +262,7 @@
         function hideModals() {
             document.getElementById('entry-modal').classList.add('hidden');
             document.getElementById('exit-modal').classList.add('hidden');
+            selectedSlotId = null;
         }
 
         document.getElementById('entry-form').onsubmit = async (e) => {
@@ -267,7 +271,10 @@
             const res = await fetch('/api/tickets/entry', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ vehicleNumber })
+                body: JSON.stringify({ 
+                    vehicleNumber,
+                    preferredSlotId: selectedSlotId
+                })
             });
             if (res.ok) {
                 hideModals();

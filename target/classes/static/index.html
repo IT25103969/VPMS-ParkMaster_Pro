@@ -585,13 +585,32 @@
             if (role === 'ADMIN') {
                 if (occupied) handleExit(id, number);
                 else if (booked) Swal.fire({ title: 'Reserved', text: 'This slot is reserved by a staff member.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-                else handleEntry();
+                else handleEntrySpecific(id, number);
             } else if (role === 'STAFF') {
                 if (occupied) {
                     Swal.fire({ title: 'Occupied', text: 'This slot is currently occupied.', icon: 'warning', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
                 } else if (booked) {
                     if (staffId == userId) {
-                        toggleBooking(id, true);
+                        Swal.fire({
+                            title: `Your Reserved Slot: ${number}`,
+                            text: 'What would you like to do?',
+                            icon: 'question',
+                            showCancelButton: true,
+                            showDenyButton: true,
+                            confirmButtonText: 'Release Reservation',
+                            denyButtonText: 'Park a Vehicle',
+                            cancelButtonText: 'Cancel',
+                            confirmButtonColor: '#ef4444',
+                            denyButtonColor: '#10b981',
+                            background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                            color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                toggleBooking(id, true);
+                            } else if (result.isDenied) {
+                                handleEntrySpecific(id, number);
+                            }
+                        });
                     } else {
                         Swal.fire({ title: 'Reserved', text: 'This slot is reserved by another staff member.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
                     }

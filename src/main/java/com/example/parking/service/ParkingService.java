@@ -153,7 +153,7 @@ public class ParkingService {
         ParkingSlot slot = null;
         if (preferredSlotId != null) {
             slot = fileRepository.findSlotById(preferredSlotId)
-                    .filter(s -> !s.isOccupied() && !s.isBookedByStaff())
+                    .filter(s -> !s.isOccupied())
                     .orElse(null);
         }
 
@@ -166,6 +166,9 @@ public class ParkingService {
         }
 
         slot.setOccupied(true);
+        // Clear booking if it was booked
+        slot.setBookedByStaff(false);
+        slot.setStaffId(null);
         fileRepository.saveSlot(slot);
 
         Ticket ticket = new Ticket();
