@@ -1,1 +1,1 @@
-[{"id":3,"name":"Store Owner","storeName":"My Store","username":"shaz4q","password":"shaz#1","membershipStartDate":"2026-03-17","active":true}]
+[{"id":1,"name":"shihaz shahee","email":"theshihaz6@gmail.com","joinDate":[2026,3,30],"active":true}]

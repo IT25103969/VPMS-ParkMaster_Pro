@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParkMaster Pro | Admin</title>
+    <title>ParkMaster Pro | Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const role = sessionStorage.getItem('role');
+        const userId = sessionStorage.getItem('userId');
+        const userName = sessionStorage.getItem('userName');
+        if (!role) window.location.href = 'login.html';
+
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -87,25 +93,29 @@
                 <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                 <span class="font-medium">Analytics</span>
             </div>
-            <div onclick="switchTab('membership')" id="nav-membership" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
-                <i data-lucide="users" class="w-5 h-5"></i>
-                <span class="font-medium">Membership</span>
+            <div id="nav-membership-container">
+                <div onclick="switchTab('membership')" id="nav-membership" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium">Staff Management</span>
+                </div>
             </div>
-            <div onclick="switchTab('settings')" id="nav-settings" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
-                <i data-lucide="settings" class="w-5 h-5"></i>
-                <span class="font-medium">Settings</span>
+            <div id="nav-settings-container">
+                <div onclick="switchTab('settings')" id="nav-settings" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span class="font-medium">Settings</span>
+                </div>
             </div>
         </nav>
 
         <div class="bg-blue-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-blue-100 dark:border-slate-700">
-            <p class="text-sm font-semibold text-blue-800 dark:text-blue-400 mb-1">Theme Mode</p>
-            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center space-x-2 bg-white dark:bg-slate-700 py-2 rounded-lg text-xs font-bold shadow-sm border dark:border-slate-600 transition-all">
-                <i data-lucide="sun" class="hidden dark:block w-4 h-4"></i>
-                <i data-lucide="moon" class="block dark:hidden w-4 h-4"></i>
-                <span class="dark:hidden">Switch to Dark</span>
-                <span class="hidden dark:block">Switch to Light</span>
+            <p class="text-xs font-semibold text-blue-800 dark:text-blue-400 mb-1" id="user-name-display">User</p>
+            <button onclick="toggleDarkMode()" class="w-full flex items-center justify-center space-x-2 bg-white dark:bg-slate-700 py-2 rounded-lg text-[10px] font-bold shadow-sm border dark:border-slate-600 mb-2 transition-all">
+                <i data-lucide="sun" class="hidden dark:block w-3 h-3"></i>
+                <i data-lucide="moon" class="block dark:hidden w-3 h-3"></i>
+                <span class="dark:hidden">Dark Mode</span>
+                <span class="hidden dark:block">Light Mode</span>
             </button>
-            <button onclick="location.href='login.html'" class="w-full mt-2 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-slate-200 py-2 rounded-lg text-xs font-bold hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors">Sign Out</button>
+            <button onclick="logout()" class="w-full bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-slate-200 py-2 rounded-lg text-[10px] font-bold hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors">Sign Out</button>
         </div>
     </aside>
 
@@ -118,13 +128,13 @@
                 <p id="page-subtitle" class="text-gray-500 dark:text-slate-400">Welcome back! Manage your parking facility with ease.</p>
             </div>
             <div class="flex items-center space-x-4">
-                <button onclick="handleEntry()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none flex items-center space-x-2">
+                <button id="btn-new-entry" onclick="handleEntry()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none flex items-center space-x-2">
                     <i data-lucide="plus-circle" class="w-5 h-5"></i>
                     <span>New Entry</span>
                 </button>
                 <div class="flex items-center space-x-3 bg-white dark:bg-slate-800 p-1 pr-4 rounded-full border dark:border-slate-700 shadow-sm">
-                    <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300 font-bold">AD</div>
-                    <span class="text-sm font-semibold text-gray-700 dark:text-slate-200">Admin</span>
+                    <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300 font-bold" id="user-initials">AD</div>
+                    <span class="text-sm font-semibold text-gray-700 dark:text-slate-200" id="user-role-display">Admin</span>
                 </div>
             </div>
         </header>
@@ -156,6 +166,12 @@
                 <div class="lg:col-span-2 glass p-6 rounded-3xl shadow-sm border border-white">
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Live Parking Map</h3>
                     <div id="parking-grid" class="grid grid-cols-5 sm:grid-cols-8 gap-4"></div>
+                    <div id="staff-legend" class="mt-4 flex space-x-4 text-xs font-bold hidden">
+                        <div class="flex items-center space-x-1"><div class="w-3 h-3 bg-green-500 rounded"></div><span>Available</span></div>
+                        <div class="flex items-center space-x-1"><div class="w-3 h-3 bg-red-500 rounded"></div><span>Occupied</span></div>
+                        <div class="flex items-center space-x-1"><div class="w-3 h-3 bg-blue-500 rounded"></div><span>Reserved</span></div>
+                        <div class="flex items-center space-x-1"><div class="w-3 h-3 bg-blue-700 ring-2 ring-blue-300 rounded"></div><span>Yours</span></div>
+                    </div>
                 </div>
                 <div class="glass p-6 rounded-3xl shadow-sm border border-white">
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Live Entry Feed</h3>
@@ -172,6 +188,21 @@
         </div>
 
         <div id="tab-history" class="tab-content space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 glass p-6 rounded-3xl shadow-sm border border-white">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Revenue Analytics</h3>
+                    <div class="h-[300px]">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl shadow-sm border border-white flex flex-col justify-center items-center text-center">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 p-4 rounded-full mb-4">
+                        <i data-lucide="trending-up" class="w-8 h-8 text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Growth Overview</h3>
+                    <p class="text-gray-500 dark:text-slate-400 text-sm">Real-time revenue tracking based on completed sessions.</p>
+                </div>
+            </div>
             <section class="glass p-6 rounded-3xl shadow-sm border border-white">
                 <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Transaction History</h3>
                 <div class="overflow-x-auto">
@@ -195,18 +226,18 @@
         <div id="tab-membership" class="tab-content space-y-8">
             <div class="glass p-8 rounded-3xl shadow-sm border border-white">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-white">Store Owner Memberships</h3>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white">Staff Management</h3>
                     <button onclick="showAddMemberModal()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2">
                         <i data-lucide="user-plus" class="w-4 h-4"></i>
-                        <span>Register Member</span>
+                        <span>Register Staff</span>
                     </button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead>
                             <tr class="text-gray-400 dark:text-slate-500 font-medium border-b border-gray-100 dark:border-slate-700">
-                                <th class="pb-4">Owner</th>
-                                <th class="pb-4">Store</th>
+                                <th class="pb-4">Staff Name</th>
+                                <th class="pb-4">Department</th>
                                 <th class="pb-4">Username</th>
                                 <th class="pb-4">Joined</th>
                                 <th class="pb-4">Action</th>
@@ -223,10 +254,50 @@
                 <div class="glass p-8 rounded-3xl shadow-sm border border-white">
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Pricing Configuration</h3>
                     <div class="space-y-4">
-                        <input type="number" id="input-hourly-rate" step="0.5" class="w-full glass px-4 py-3 rounded-xl outline-none dark:text-white">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Hourly Rate ($)</label>
+                            <input type="number" id="input-hourly-rate" step="0.5" class="w-full glass px-4 py-3 rounded-xl outline-none dark:text-white">
+                        </div>
                         <button onclick="updateRate()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700">Update Rate</button>
                     </div>
                 </div>
+                <div class="glass p-8 rounded-3xl shadow-sm border border-white">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Monthly Membership Fee</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-2">30-Day Cycle Fee ($)</label>
+                            <input type="number" id="input-member-fee" step="1" class="w-full glass px-4 py-3 rounded-xl outline-none dark:text-white">
+                        </div>
+                        <button onclick="updateMemberFee()" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700">Update Membership Fee</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl shadow-sm border border-white">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white">Active Monthly Members</h3>
+                    <button onclick="showAddMonthlyMemberModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2">
+                        <i data-lucide="user-plus" class="w-4 h-4"></i>
+                        <span>Add New Member</span>
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="text-gray-400 dark:text-slate-500 font-medium border-b border-gray-100 dark:border-slate-700">
+                                <th class="pb-4">Name</th>
+                                <th class="pb-4">Email</th>
+                                <th class="pb-4">Join Date</th>
+                                <th class="pb-4">Status</th>
+                                <th class="pb-4">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-members-body" class="divide-y divide-gray-50 dark:divide-slate-700"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="glass p-8 rounded-3xl shadow-sm border border-white">
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Capacity Management</h3>
                     <div class="space-y-4">
@@ -234,10 +305,10 @@
                         <button onclick="updateSlotCount()" class="w-full bg-orange-600 text-white py-3 rounded-xl font-bold hover:bg-orange-700">Adjust Capacity</button>
                     </div>
                 </div>
-            </div>
-            <div class="glass p-8 rounded-3xl shadow-sm border border-white">
-                <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Admin Security</h3>
-                <button onclick="changeAdminPassword()" class="bg-gray-800 dark:bg-slate-700 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-black dark:hover:bg-slate-600 transition-all">Change Admin Password</button>
+                <div class="glass p-8 rounded-3xl shadow-sm border border-white">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Admin Security</h3>
+                    <button onclick="changeAdminPassword()" class="w-full bg-gray-800 dark:bg-slate-700 text-white py-3 rounded-xl font-bold hover:bg-black dark:hover:bg-slate-600 transition-all">Change Admin Password</button>
+                </div>
             </div>
         </div>
 
@@ -247,7 +318,23 @@
         const API_BASE = '/api';
         let currentTab = 'dashboard';
 
+        // Initialize user info
+        document.getElementById('user-name-display').textContent = userName || 'User';
+        document.getElementById('user-role-display').textContent = role || 'Role';
+        document.getElementById('user-initials').textContent = (userName || 'U').substring(0, 2).toUpperCase();
+
+        if (role === 'STAFF') {
+            document.getElementById('nav-membership-container').style.display = 'none';
+            document.getElementById('nav-settings-container').style.display = 'none';
+            document.getElementById('staff-legend').classList.remove('hidden');
+        }
+
         function switchTab(tabId) {
+            if (role === 'STAFF' && (tabId === 'membership' || tabId === 'settings')) {
+                window.location.href = 'access-denied.html';
+                return;
+            }
+
             currentTab = tabId;
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active', 'text-gray-500', 'dark:text-slate-400'));
@@ -259,7 +346,7 @@
                 dashboard: ['Overview Dashboard', 'Manage your parking facility with ease.'],
                 slots: ['Parking Slots', 'Monitor and manage specific parking locations.'],
                 history: ['Analytics & History', 'Review all past transactions and revenue data.'],
-                membership: ['Membership Management', 'Administer store owner accounts.'],
+                membership: ['Staff Management', 'Administer staff accounts.'],
                 settings: ['System Settings', 'Configure rates and system capacity.']
             };
             
@@ -292,14 +379,126 @@
                     renderGrid(slots, 'slots-management-grid', true);
                 } else if (currentTab === 'history') {
                     renderHistory(history);
-                } else if (currentTab === 'membership') {
+                    renderChart(history);
+                } else if (currentTab === 'membership' && role === 'ADMIN') {
                     renderMembers();
-                } else if (currentTab === 'settings') {
+                } else if (currentTab === 'settings' && role === 'ADMIN') {
                     document.getElementById('input-hourly-rate').value = rate.rate;
                     document.getElementById('input-slot-count').value = count.count;
+                    loadMonthlyMemberData();
                 }
                 lucide.createIcons();
             } catch (err) { console.error(err); }
+        }
+
+        async function loadMonthlyMemberData() {
+            const [feeRes, membersRes] = await Promise.all([
+                fetch(`${API_BASE}/admin/members/fee`),
+                fetch(`${API_BASE}/admin/members`)
+            ]);
+            const feeData = await feeRes.json();
+            const members = await membersRes.json();
+            
+            document.getElementById('input-member-fee').value = feeData.fee;
+            renderMonthlyMembers(members);
+        }
+
+        function renderMonthlyMembers(members) {
+            const body = document.getElementById('monthly-members-body');
+            body.innerHTML = members.map(m => `
+                <tr class="hover:bg-white dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="py-4 font-bold text-gray-700 dark:text-slate-200">${m.name}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">${m.email}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.joinDate}</td>
+                    <td class="py-4"><span class="px-2 py-1 rounded-full text-[10px] font-bold ${m.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${m.active ? 'ACTIVE' : 'EXPIRED'}</span></td>
+                    <td class="py-4"><button onclick="deleteMonthlyMember(${m.id})" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
+                </tr>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        async function showAddMonthlyMemberModal() {
+            const { value: v } = await Swal.fire({
+                title: 'Register Monthly Member',
+                html: '<input id="mn" class="swal2-input" placeholder="Full Name"><input id="me" class="swal2-input" placeholder="Email Address">',
+                preConfirm: () => ({ name: document.getElementById('mn').value, email: document.getElementById('me').value }),
+                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
+            });
+            if (v && v.name && v.email) {
+                const res = await fetch(`${API_BASE}/admin/members`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
+                if (res.ok) { Swal.fire('Success', 'Member registered!', 'success'); loadMonthlyMemberData(); }
+            }
+        }
+
+        async function deleteMonthlyMember(id) {
+            if ((await Swal.fire({ title: 'Remove Member?', icon: 'warning', showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' })).isConfirmed) {
+                await fetch(`${API_BASE}/admin/members/${id}`, { method: 'DELETE' });
+                loadMonthlyMemberData();
+            }
+        }
+
+        async function updateMemberFee() {
+            const f = document.getElementById('input-member-fee').value;
+            const res = await fetch(`${API_BASE}/admin/members/fee`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fee: parseFloat(f) }) });
+            if (res.ok) Swal.fire({ title: 'Updated', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+        }
+
+        let revenueChart = null;
+        function renderChart(history) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            
+            // Process data for chart (Group revenue by day)
+            const dailyData = {};
+            history.filter(t => t.status === 'COMPLETED').forEach(t => {
+                const date = new Date(t.exitTime).toLocaleDateString();
+                dailyData[date] = (dailyData[date] || 0) + t.amount;
+            });
+
+            const labels = Object.keys(dailyData).sort((a, b) => new Date(a) - new Date(b));
+            const data = labels.map(l => dailyData[l]);
+
+            if (revenueChart) revenueChart.destroy();
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const color = isDark ? '#3b82f6' : '#2563eb';
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+
+            revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Revenue',
+                        data: data,
+                        borderColor: color,
+                        backgroundColor: color + '20',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: color,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b' }
+                        }
+                    }
+                }
+            });
         }
 
         function renderStats(slots, stats, rate) {
@@ -311,13 +510,17 @@
 
         function renderGrid(slots, elementId, isDetailed = false) {
             const grid = document.getElementById(elementId);
-            grid.innerHTML = slots.map(slot => `
-                <div onclick="handleSlotAction(${slot.id}, '${slot.slotNumber}', ${slot.occupied}, ${slot.bookedByMember})" 
-                     class="parking-slot ${isDetailed ? 'p-6' : 'h-12'} ${slot.occupied ? 'bg-red-500' : (slot.bookedByMember ? 'bg-blue-500' : 'bg-green-500')} rounded-2xl flex flex-col items-center justify-center cursor-pointer shadow-sm text-white">
-                    ${slot.occupied ? '<i data-lucide="car" class="w-5 h-5"></i>' : (slot.bookedByMember ? '<i data-lucide="bookmark" class="w-4 h-4"></i>' : `<span class="text-sm font-bold">${slot.slotNumber}</span>`)}
-                    ${isDetailed ? `<span class="text-[10px] mt-2 opacity-80 uppercase font-bold">${slot.occupied ? 'Occupied' : (slot.bookedByMember ? 'Booked' : 'Free')}</span>` : ''}
+            grid.innerHTML = slots.map(slot => {
+                const isMine = role === 'STAFF' && slot.staffId == userId;
+                const statusColor = slot.occupied ? 'bg-red-500' : (slot.bookedByStaff ? (isMine ? 'bg-blue-700 ring-4 ring-blue-300' : 'bg-blue-500') : 'bg-green-500');
+                
+                return `
+                <div onclick="handleSlotAction(${slot.id}, '${slot.slotNumber}', ${slot.occupied}, ${slot.bookedByStaff}, ${slot.staffId})" 
+                     class="parking-slot ${isDetailed ? 'p-6' : 'h-12'} ${statusColor} rounded-2xl flex flex-col items-center justify-center cursor-pointer shadow-sm text-white">
+                    ${slot.occupied ? '<i data-lucide="car" class="w-5 h-5"></i>' : (slot.bookedByStaff ? (isMine ? '<i data-lucide="check-circle" class="w-5 h-5"></i>' : '<i data-lucide="bookmark" class="w-4 h-4"></i>') : `<span class="text-sm font-bold">${slot.slotNumber}</span>`)}
+                    ${isDetailed ? `<span class="text-[10px] mt-2 opacity-80 uppercase font-bold">${slot.occupied ? 'Occupied' : (slot.bookedByStaff ? (isMine ? 'Your Slot' : 'Reserved') : 'Free')}</span>` : ''}
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function renderFeed(history) {
@@ -341,15 +544,15 @@
         }
 
         async function renderMembers() {
-            const res = await fetch(`${API_BASE}/members`);
+            const res = await fetch(`${API_BASE}/staff`);
             const members = await res.json();
             const body = document.getElementById('membership-body');
             body.innerHTML = members.map(m => `
                 <tr class="hover:bg-white dark:hover:bg-slate-800/50 transition-colors">
                     <td class="py-4 font-bold text-gray-700 dark:text-slate-200">${m.name}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.storeName}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.department}</td>
                     <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">${m.username}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.membershipStartDate}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.joinDate}</td>
                     <td class="py-4"><button onclick="deleteMember(${m.id})" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
                 </tr>
             `).join('');
@@ -358,14 +561,14 @@
 
         async function showAddMemberModal() {
             const { value: v } = await Swal.fire({
-                title: 'Add Store Owner',
-                html: '<input id="n" class="swal2-input" placeholder="Name"><input id="s" class="swal2-input" placeholder="Store"><input id="u" class="swal2-input" placeholder="Username"><input id="p" type="password" class="swal2-input" placeholder="Password">',
-                preConfirm: () => ({ name: document.getElementById('n').value, storeName: document.getElementById('s').value, username: document.getElementById('u').value, password: document.getElementById('p').value }),
+                title: 'Add Staff Member',
+                html: '<input id="n" class="swal2-input" placeholder="Full Name"><input id="s" class="swal2-input" placeholder="Department"><input id="u" class="swal2-input" placeholder="Username"><input id="p" type="password" class="swal2-input" placeholder="Password">',
+                preConfirm: () => ({ name: document.getElementById('n').value, department: document.getElementById('s').value, username: document.getElementById('u').value, password: document.getElementById('p').value }),
                 background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
                 color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
             });
             if (v) {
-                const res = await fetch(`${API_BASE}/members`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
+                const res = await fetch(`${API_BASE}/staff`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
                 if (res.ok) { Swal.fire('Success', '', 'success'); renderMembers(); }
                 else Swal.fire('Error', await res.text(), 'error');
             }
@@ -373,15 +576,81 @@
 
         async function deleteMember(id) {
             if ((await Swal.fire({ title: 'Delete?', icon: 'warning', showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' })).isConfirmed) {
-                await fetch(`${API_BASE}/members/${id}`, { method: 'DELETE' });
+                await fetch(`${API_BASE}/staff/${id}`, { method: 'DELETE' });
                 renderMembers();
             }
         }
 
-        function handleSlotAction(id, number, occupied, booked) {
-            if (occupied) handleExit(id, number);
-            else if (booked) Swal.fire({ title: 'Reserved', text: 'This slot is reserved by a member.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-            else handleEntry();
+        function handleSlotAction(id, number, occupied, booked, staffId) {
+            if (role === 'ADMIN') {
+                if (occupied) handleExit(id, number);
+                else if (booked) Swal.fire({ title: 'Reserved', text: 'This slot is reserved by a staff member.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+                else handleEntry();
+            } else if (role === 'STAFF') {
+                if (occupied) {
+                    Swal.fire({ title: 'Occupied', text: 'This slot is currently occupied.', icon: 'warning', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+                } else if (booked) {
+                    if (staffId == userId) {
+                        toggleBooking(id, true);
+                    } else {
+                        Swal.fire({ title: 'Reserved', text: 'This slot is reserved by another staff member.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+                    }
+                } else {
+                    // STAFF options for FREE slot
+                    Swal.fire({
+                        title: `Slot ${number}`,
+                        text: 'Choose an action for this available slot:',
+                        icon: 'question',
+                        showCancelButton: true,
+                        showDenyButton: true,
+                        confirmButtonText: 'Reserve for Me',
+                        denyButtonText: 'Park a Vehicle',
+                        cancelButtonText: 'Cancel',
+                        confirmButtonColor: '#3b82f6',
+                        denyButtonColor: '#10b981',
+                        background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                        color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            toggleBooking(id, false);
+                        } else if (result.isDenied) {
+                            handleEntrySpecific(id, number);
+                        }
+                    });
+                }
+            }
+        }
+
+        async function handleEntrySpecific(slotId, slotNumber) {
+            const { value: v } = await Swal.fire({ 
+                title: 'Vehicle Entry', 
+                text: `Parking into Slot ${slotNumber}`,
+                input: 'text', 
+                showCancelButton: true, 
+                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', 
+                color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' 
+            });
+            if (v) {
+                // Modified entry logic to use specific slot if needed (current API parks in first free, but we can improve it)
+                const res = await fetch(`${API_BASE}/tickets/entry`, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ vehicleNumber: v, preferredSlotId: slotId }) 
+                });
+                if (res.ok) { Swal.fire('Parked!', '', 'success'); loadData(); }
+                else Swal.fire('Error', await res.text(), 'error');
+            }
+        }
+
+        async function toggleBooking(slotId, isCurrentlyBooked) {
+            const endpoint = isCurrentlyBooked ? `${API_BASE}/staff/unbook/${slotId}/${userId}` : `${API_BASE}/staff/book/${slotId}/${userId}`;
+            const res = await fetch(endpoint, { method: 'POST' });
+            if (res.ok) {
+                Swal.fire({ icon: 'success', title: isCurrentlyBooked ? 'Slot Released' : 'Slot Reserved', timer: 1000, showConfirmButton: false, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+                loadData();
+            } else {
+                Swal.fire({ title: 'Error', text: await res.text(), icon: 'error', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+            }
         }
 
         async function handleEntry() {
@@ -427,6 +696,8 @@
             }
             lucide.createIcons();
         }
+
+        function logout() { sessionStorage.clear(); window.location.href = 'login.html'; }
 
         switchTab('dashboard');
         setInterval(loadData, 30000);

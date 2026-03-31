@@ -8,43 +8,38 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FilePersistenceService {
 
-    private static final String FILE_NAME = "parking_data_log.txt";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final String LOG_FILE = "parking_data_log.txt";
 
     public synchronized void logStateChange(String operation, List<ParkingSlot> slots, List<Ticket> activeTickets) {
-        try (FileWriter fw = new FileWriter(FILE_NAME, true);
+        try (FileWriter fw = new FileWriter(LOG_FILE, true);
              PrintWriter pw = new PrintWriter(fw)) {
 
-            String timestamp = LocalDateTime.now().format(formatter);
-            pw.println("[" + timestamp + "] OPERATION: " + operation);
-            
-            long occupiedCount = slots.stream().filter(ParkingSlot::isOccupied).count();
-            pw.println("Summary: Total Slots: " + slots.size() + " | Occupied: " + occupiedCount + " | Free: " + (slots.size() - occupiedCount));
-            
-            pw.println("Current Slots State:");
+            pw.println("-------------------------------------------------------------------------------");
+            pw.println("Timestamp: " + LocalDateTime.now());
+            pw.println("Operation: " + operation);
+            pw.println("Active Sessions: " + activeTickets.size());
+            pw.println("Parking Map Status:");
+
             for (ParkingSlot slot : slots) {
-                String status = slot.isOccupied() ? "OCCUPIED" : "FREE";
-                String vehicleInfo = "";
-                
-                if (slot.isOccupied()) {
-                    vehicleInfo = activeTickets.stream()
-                        .filter(t -> t.getSlot() != null && t.getSlot().getId().equals(slot.getId()))
-                        .map(t -> " (Vehicle: " + t.getVehicleNumber() + ")")
-                        .findFirst()
-                        .orElse("");
-                }
-                
-                pw.println(" - " + slot.getSlotNumber() + ": " + status + vehicleInfo);
+                pw.println(String.format("Slot %s: %s | Reserved: %s", 
+                    slot.getSlotNumber(), 
+                    slot.isOccupied() ? "Occupied" : "Free",
+                    slot.isBookedByStaff() ? "Staff ID " + slot.getStaffId() : "No"));
             }
-            
-            pw.println("--------------------------------------------------------------------------------");
+
+            pw.println("Active Tickets:");
+            for (Ticket ticket : activeTickets) {
+                pw.println(String.format(" - Vehicle: %s | Slot: %s | Entry: %s",
+                    ticket.getVehicleNumber(),
+                    ticket.getSlot().getSlotNumber(),
+                    ticket.getEntryTime()));
+            }
+            pw.println("-------------------------------------------------------------------------------");
             pw.flush();
 
         } catch (IOException e) {

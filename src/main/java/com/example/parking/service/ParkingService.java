@@ -110,51 +110,60 @@ public class ParkingService {
 
     public List<ParkingSlot> getAvailableSlotsForGeneral() {
         return fileRepository.findAllSlots().stream()
-                .filter(s -> !s.isOccupied() && !s.isBookedByMember())
+                .filter(s -> !s.isOccupied() && !s.isBookedByStaff())
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    public void bookSlot(Long slotId, Long memberId) {
+    public void bookSlot(Long slotId, Long staffId) {
         ParkingSlot slot = fileRepository.findSlotById(slotId)
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
 
-        if (slot.isOccupied() || slot.isBookedByMember()) {
+        if (slot.isOccupied() || slot.isBookedByStaff()) {
             throw new RuntimeException("Slot is already taken");
         }
 
-        // Check if member already has a booking
+        // Check if staff already has a booking
         boolean hasBooking = fileRepository.findAllSlots().stream()
-                .anyMatch(s -> memberId.equals(s.getMemberId()));
+                .anyMatch(s -> staffId.equals(s.getStaffId()));
         if (hasBooking) {
-            throw new RuntimeException("Member already has a booked slot");
+            throw new RuntimeException("Staff already has a booked slot");
         }
 
-        slot.setBookedByMember(true);
-        slot.setMemberId(memberId);
+        slot.setBookedByStaff(true);
+        slot.setStaffId(staffId);
         fileRepository.saveSlot(slot);
-        syncToFile("MEMBER_BOOKING (Member: " + memberId + " | Slot: " + slot.getSlotNumber() + ")");
+        syncToFile("STAFF_BOOKING (Staff: " + staffId + " | Slot: " + slot.getSlotNumber() + ")");
     }
 
-    public void unbookSlot(Long slotId, Long memberId) {
+    public void unbookSlot(Long slotId, Long staffId) {
         ParkingSlot slot = fileRepository.findSlotById(slotId)
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
 
-        if (!memberId.equals(slot.getMemberId())) {
+        if (!staffId.equals(slot.getStaffId())) {
             throw new RuntimeException("This slot is not booked by you");
         }
 
-        slot.setBookedByMember(false);
-        slot.setMemberId(null);
+        slot.setBookedByStaff(false);
+        slot.setStaffId(null);
         fileRepository.saveSlot(slot);
-        syncToFile("MEMBER_UNBOOKING (Member: " + memberId + " | Slot: " + slot.getSlotNumber() + ")");
+        syncToFile("STAFF_UNBOOKING (Staff: " + staffId + " | Slot: " + slot.getSlotNumber() + ")");
     }
 
-    public Ticket parkVehicle(String vehicleNumber) {
-        List<ParkingSlot> freeSlots = getAvailableSlotsForGeneral();
-        if (freeSlots.isEmpty()) {
-            throw new RuntimeException("No parking slots available");
+    public Ticket parkVehicle(String vehicleNumber, Long preferredSlotId) {
+        ParkingSlot slot = null;
+        if (preferredSlotId != null) {
+            slot = fileRepository.findSlotById(preferredSlotId)
+                    .filter(s -> !s.isOccupied() && !s.isBookedByStaff())
+                    .orElse(null);
         }
-        ParkingSlot slot = freeSlots.get(0);
+
+        if (slot == null) {
+            List<ParkingSlot> freeSlots = getAvailableSlotsForGeneral();
+            if (freeSlots.isEmpty()) {
+                throw new RuntimeException("No parking slots available");
+            }
+            slot = freeSlots.get(0);
+        }
 
         slot.setOccupied(true);
         fileRepository.saveSlot(slot);

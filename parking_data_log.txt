@@ -730,3 +730,888 @@ Current Slots State:
  - A33: FREE
  - A34: FREE
 --------------------------------------------------------------------------------
+[2026-03-30 15:44:01] OPERATION: SYSTEM_INITIALIZATION
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 15:44:38] OPERATION: VEHICLE_ENTRY (Vehicle: CAC-3358 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 1 | Free: 33
+Current Slots State:
+ - A1: OCCUPIED (Vehicle: CAC-3358)
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 15:44:47] OPERATION: VEHICLE_ENTRY (Vehicle: CAC-3358 | Slot: A2)
+Summary: Total Slots: 34 | Occupied: 2 | Free: 32
+Current Slots State:
+ - A1: OCCUPIED (Vehicle: CAC-3358)
+ - A2: OCCUPIED (Vehicle: CAC-3358)
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 15:45:06] OPERATION: VEHICLE_EXIT (Vehicle: CAC-3358 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 1 | Free: 33
+Current Slots State:
+ - A1: FREE
+ - A2: OCCUPIED (Vehicle: CAC-3358)
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 18:03:28] OPERATION: SYSTEM_INITIALIZATION
+Summary: Total Slots: 34 | Occupied: 1 | Free: 33
+Current Slots State:
+ - A1: FREE
+ - A2: OCCUPIED (Vehicle: CAC-3358)
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 18:06:43] OPERATION: VEHICLE_EXIT (Vehicle: CAC-3358 | Slot: A2)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 18:41:27] OPERATION: SYSTEM_INITIALIZATION
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:19:52] OPERATION: STAFF_BOOKING (Staff: 1 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:20:01] OPERATION: STAFF_UNBOOKING (Staff: 1 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:20:05] OPERATION: STAFF_BOOKING (Staff: 1 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:20:06] OPERATION: STAFF_UNBOOKING (Staff: 1 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:20:11] OPERATION: STAFF_BOOKING (Staff: 1 | Slot: A5)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:20:13] OPERATION: STAFF_UNBOOKING (Staff: 1 | Slot: A5)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:20:17] OPERATION: STAFF_BOOKING (Staff: 1 | Slot: A28)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:20:18] OPERATION: STAFF_UNBOOKING (Staff: 1 | Slot: A28)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:32:20] OPERATION: SYSTEM_INITIALIZATION
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:32:33] OPERATION: STAFF_BOOKING (Staff: 1 | Slot: A28)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:37:40] OPERATION: SYSTEM_INITIALIZATION
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:42:12] OPERATION: VEHICLE_ENTRY (Vehicle: CAC-3358 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 1 | Free: 33
+Current Slots State:
+ - A1: OCCUPIED (Vehicle: CAC-3358)
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+[2026-03-30 19:42:15] OPERATION: VEHICLE_EXIT (Vehicle: CAC-3358 | Slot: A1)
+Summary: Total Slots: 34 | Occupied: 0 | Free: 34
+Current Slots State:
+ - A1: FREE
+ - A2: FREE
+ - A3: FREE
+ - A4: FREE
+ - A5: FREE
+ - A6: FREE
+ - A7: FREE
+ - A8: FREE
+ - A9: FREE
+ - A10: FREE
+ - A11: FREE
+ - A12: FREE
+ - A13: FREE
+ - A14: FREE
+ - A15: FREE
+ - A16: FREE
+ - A17: FREE
+ - A18: FREE
+ - A19: FREE
+ - A20: FREE
+ - A21: FREE
+ - A22: FREE
+ - A23: FREE
+ - A24: FREE
+ - A25: FREE
+ - A26: FREE
+ - A27: FREE
+ - A28: FREE
+ - A29: FREE
+ - A30: FREE
+ - A31: FREE
+ - A32: FREE
+ - A33: FREE
+ - A34: FREE
+--------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-03-31T10:14:38.133232800
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 0
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Free | Reserved: Staff ID 1
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-03-31T10:16:23.724299800
+Operation: VEHICLE_ENTRY (Vehicle: CAC-3358 | Slot: A1)
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Occupied | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Free | Reserved: Staff ID 1
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A1 | Entry: 2026-03-31T10:16:23.718004900
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-03-31T22:22:08.488944900
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Occupied | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Free | Reserved: Staff ID 1
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A1 | Entry: 2026-03-31T10:16:23.718004900
+-------------------------------------------------------------------------------

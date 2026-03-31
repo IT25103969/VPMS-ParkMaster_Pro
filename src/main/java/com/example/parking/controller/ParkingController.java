@@ -26,7 +26,7 @@ public class ParkingController {
         
         // Hardcoded admin for simplicity
         if ("admin".equals(username) && "admin123".equals(password)) {
-            return ResponseEntity.ok(Map.of("token", "admin-sim-token", "role", "ADMIN"));
+            return ResponseEntity.ok(Map.of("token", "admin-sim-token", "role", "ADMIN", "name", "Administrator"));
         }
         return ResponseEntity.status(401).body("Invalid credentials");
     }
@@ -39,13 +39,16 @@ public class ParkingController {
 
     // --- Tickets ---
     @PostMapping("/tickets/entry")
-    public ResponseEntity<?> parkVehicle(@RequestBody Map<String, String> request) {
-        String vehicleNumber = request.get("vehicleNumber");
+    public ResponseEntity<?> parkVehicle(@RequestBody Map<String, Object> request) {
+        String vehicleNumber = (String) request.get("vehicleNumber");
+        Number preferredSlotIdNum = (Number) request.get("preferredSlotId");
+        Long preferredSlotId = preferredSlotIdNum != null ? preferredSlotIdNum.longValue() : null;
+
         if (vehicleNumber == null || vehicleNumber.isEmpty()) {
             return ResponseEntity.badRequest().body("Vehicle number is required");
         }
         try {
-            Ticket ticket = parkingService.parkVehicle(vehicleNumber);
+            Ticket ticket = parkingService.parkVehicle(vehicleNumber, preferredSlotId);
             return ResponseEntity.ok(ticket);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -111,21 +114,21 @@ public class ParkingController {
         }
     }
 
-    // --- Member Slot Booking ---
-    @PostMapping("/members/book/{slotId}/{memberId}")
-    public ResponseEntity<?> bookSlot(@PathVariable Long slotId, @PathVariable Long memberId) {
+    // --- Staff Slot Booking ---
+    @PostMapping("/staff/book/{slotId}/{staffId}")
+    public ResponseEntity<?> bookSlot(@PathVariable Long slotId, @PathVariable Long staffId) {
         try {
-            parkingService.bookSlot(slotId, memberId);
+            parkingService.bookSlot(slotId, staffId);
             return ResponseEntity.ok(Map.of("message", "Slot booked successfully"));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PostMapping("/members/unbook/{slotId}/{memberId}")
-    public ResponseEntity<?> unbookSlot(@PathVariable Long slotId, @PathVariable Long memberId) {
+    @PostMapping("/staff/unbook/{slotId}/{staffId}")
+    public ResponseEntity<?> unbookSlot(@PathVariable Long slotId, @PathVariable Long staffId) {
         try {
-            parkingService.unbookSlot(slotId, memberId);
+            parkingService.unbookSlot(slotId, staffId);
             return ResponseEntity.ok(Map.of("message", "Slot unbooked successfully"));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

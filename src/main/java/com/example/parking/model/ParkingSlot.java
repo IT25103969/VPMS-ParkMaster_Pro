@@ -9,8 +9,8 @@ public class ParkingSlot implements Serializable {
     private Long id;
     private String slotNumber;
     private boolean isOccupied;
-    private boolean isBookedByMember;
-    private Long memberId;
+    private boolean isBookedByStaff;
+    private Long staffId;
 
     // Constructors
     public ParkingSlot() {}
@@ -19,8 +19,8 @@ public class ParkingSlot implements Serializable {
         this.id = id;
         this.slotNumber = slotNumber;
         this.isOccupied = false;
-        this.isBookedByMember = false;
-        this.memberId = null;
+        this.isBookedByStaff = false;
+        this.staffId = null;
     }
 
     // Getters and Setters
@@ -33,9 +33,9 @@ public class ParkingSlot implements Serializable {
     public boolean isOccupied() { return isOccupied; }
     public void setOccupied(boolean occupied) { isOccupied = occupied; }
 
-    public boolean isBookedByMember() { return isBookedByMember; }
-    public void setBookedByMember(boolean bookedByMember) { isBookedByMember = bookedByMember; }
+    public boolean isBookedByStaff() { return isBookedByStaff; }
+    public void setBookedByStaff(boolean bookedByStaff) { isBookedByStaff = bookedByStaff; }
 
-    public Long getMemberId() { return memberId; }
-    public void setMemberId(Long memberId) { this.memberId = memberId; }
+    public Long getStaffId() { return staffId; }
+    public void setStaffId(Long staffId) { this.staffId = staffId; }
 }

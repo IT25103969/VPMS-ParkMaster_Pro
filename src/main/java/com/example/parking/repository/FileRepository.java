@@ -3,6 +3,7 @@ package com.example.parking.repository;
 import com.example.parking.model.ParkingSlot;
 import com.example.parking.model.Setting;
 import com.example.parking.model.Ticket;
+import com.example.parking.model.Staff;
 import com.example.parking.model.Member;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,16 +23,19 @@ public class FileRepository {
     private final String SLOTS_FILE = "slots.txt";
     private final String SETTINGS_FILE = "settings.txt";
     private final String TICKETS_FILE = "tickets.txt";
+    private final String STAFF_FILE = "staff.txt";
     private final String MEMBERS_FILE = "members.txt";
 
     private List<ParkingSlot> slots = new ArrayList<>();
     private List<Setting> settings = new ArrayList<>();
     private List<Ticket> tickets = new ArrayList<>();
+    private List<Staff> staffMembers = new ArrayList<>();
     private List<Member> members = new ArrayList<>();
 
     private AtomicLong slotIdGen = new AtomicLong(1);
     private AtomicLong settingIdGen = new AtomicLong(1);
     private AtomicLong ticketIdGen = new AtomicLong(1);
+    private AtomicLong staffIdGen = new AtomicLong(1);
     private AtomicLong memberIdGen = new AtomicLong(1);
 
     private final ObjectMapper mapper;
@@ -50,12 +54,14 @@ public class FileRepository {
         slots = loadFromFile(SLOTS_FILE, new TypeReference<List<ParkingSlot>>() {});
         settings = loadFromFile(SETTINGS_FILE, new TypeReference<List<Setting>>() {});
         tickets = loadFromFile(TICKETS_FILE, new TypeReference<List<Ticket>>() {});
+        staffMembers = loadFromFile(STAFF_FILE, new TypeReference<List<Staff>>() {});
         members = loadFromFile(MEMBERS_FILE, new TypeReference<List<Member>>() {});
 
         // Update ID generators based on loaded data
         slotIdGen.set(getMaxId(slots) + 1);
         settingIdGen.set(getMaxId(settings) + 1);
         ticketIdGen.set(getMaxId(tickets) + 1);
+        staffIdGen.set(getMaxId(staffMembers) + 1);
         memberIdGen.set(getMaxId(members) + 1);
     }
 
@@ -160,11 +166,34 @@ public class FileRepository {
         return ticket;
     }
 
+    // Staff Operations
+    public synchronized List<Staff> findAllStaff() { return new ArrayList<>(staffMembers); }
+    public synchronized Optional<Staff> findStaffByUsername(String username) {
+        return staffMembers.stream().filter(m -> m.getUsername().equals(username)).findFirst();
+    }
+    public synchronized Optional<Staff> findStaffById(Long id) {
+        return staffMembers.stream().filter(m -> m.getId().equals(id)).findFirst();
+    }
+    public synchronized Staff saveStaff(Staff staff) {
+        if (staff.getId() == null) {
+            staff.setId(staffIdGen.getAndIncrement());
+            staffMembers.add(staff);
+        } else {
+            staffMembers.stream().filter(m -> m.getId().equals(staff.getId())).findFirst().ifPresent(m -> {
+                int index = staffMembers.indexOf(m);
+                staffMembers.set(index, staff);
+            });
+        }
+        saveToFile(STAFF_FILE, staffMembers);
+        return staff;
+    }
+    public synchronized void deleteStaff(Long id) {
+        staffMembers.removeIf(m -> m.getId().equals(id));
+        saveToFile(STAFF_FILE, staffMembers);
+    }
+
     // Member Operations
     public synchronized List<Member> findAllMembers() { return new ArrayList<>(members); }
-    public synchronized Optional<Member> findMemberByUsername(String username) {
-        return members.stream().filter(m -> m.getUsername().equals(username)).findFirst();
-    }
     public synchronized Optional<Member> findMemberById(Long id) {
         return members.stream().filter(m -> m.getId().equals(id)).findFirst();
     }
