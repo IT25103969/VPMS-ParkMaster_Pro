@@ -76,6 +76,42 @@ public class FileRepository {
         }
     }
 
+    private static final String LOGINS_FILE = "logins.txt";
+
+    public synchronized void logLogin(String username) {
+        String logEntry = java.time.LocalDateTime.now().toString() + "," + username + "\n";
+        try {
+            java.nio.file.Files.write(java.nio.file.Paths.get(LOGINS_FILE), 
+                logEntry.getBytes(), 
+                java.nio.file.StandardOpenOption.CREATE, 
+                java.nio.file.StandardOpenOption.APPEND);
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized java.util.List<String[]> getLoginsForDate(java.time.LocalDate date) {
+        java.util.List<String[]> logins = new java.util.ArrayList<>();
+        try {
+            java.nio.file.Path path = java.nio.file.Paths.get(LOGINS_FILE);
+            if (java.nio.file.Files.exists(path)) {
+                java.util.List<String> lines = java.nio.file.Files.readAllLines(path);
+                for (String line : lines) {
+                    String[] parts = line.split(",");
+                    if (parts.length >= 2) {
+                        java.time.LocalDateTime dt = java.time.LocalDateTime.parse(parts[0]);
+                        if (dt.toLocalDate().equals(date)) {
+                            logins.add(parts);
+                        }
+                    }
+                }
+            }
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        return logins;
+    }
+
     private <T> void saveToFile(String fileName, List<T> data) {
         try {
             mapper.writeValue(new File(fileName), data);

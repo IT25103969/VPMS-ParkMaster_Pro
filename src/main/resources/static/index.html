@@ -9,6 +9,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script>
         const role = sessionStorage.getItem('role');
         const userId = sessionStorage.getItem('userId');
@@ -294,6 +296,20 @@
                         </thead>
                         <tbody id="monthly-members-body" class="divide-y divide-gray-50 dark:divide-slate-700"></tbody>
                     </table>
+                </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl shadow-sm border border-white">
+                <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Operational Reports</h3>
+                <div class="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800">
+                    <div>
+                        <p class="font-bold text-blue-900 dark:text-blue-300">Daily PDF Activity Report</p>
+                        <p class="text-xs text-blue-700 dark:text-blue-400">Includes revenue, vehicle statistics, and staff login activity for today.</p>
+                    </div>
+                    <button onclick="downloadReport()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-700 flex items-center space-x-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Download PDF</span>
+                    </button>
                 </div>
             </div>
 
@@ -583,12 +599,39 @@
 
         function handleSlotAction(id, number, occupied, booked, staffId) {
             if (role === 'ADMIN') {
-                if (occupied) handleExit(id, number);
-                else if (booked) Swal.fire({ title: 'Reserved', text: 'This slot is reserved by a staff member.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-                else handleEntrySpecific(id, number);
+                if (occupied) {
+                    handleExit(id, number);
+                } else if (booked) {
+                    Swal.fire({
+                        title: `Reserved Slot: ${number}`,
+                        text: 'This slot is reserved by a staff member. As admin, you can:',
+                        icon: 'info',
+                        showCancelButton: true,
+                        showDenyButton: true,
+                        confirmButtonText: 'Release Reservation',
+                        denyButtonText: 'Force Park Vehicle',
+                        cancelButtonText: 'Cancel',
+                        confirmButtonColor: '#ef4444',
+                        denyButtonColor: '#3b82f6',
+                        background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                        color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Release reservation using admin override (staffId=0)
+                            const endpoint = `${API_BASE}/staff/unbook/${id}/0`;
+                            fetch(endpoint, { method: 'POST' }).then(res => {
+                                if (res.ok) { loadData(); Swal.fire('Released', '', 'success'); }
+                            });
+                        } else if (result.isDenied) {
+                            handleEntrySpecific(id, number);
+                        }
+                    });
+                } else {
+                    handleEntrySpecific(id, number);
+                }
             } else if (role === 'STAFF') {
                 if (occupied) {
-                    Swal.fire({ title: 'Occupied', text: 'This slot is currently occupied.', icon: 'warning', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+                    handleExit(id, number);
                 } else if (booked) {
                     if (staffId == userId) {
                         Swal.fire({
@@ -703,6 +746,70 @@
         async function changeAdminPassword() {
             const { value: p } = await Swal.fire({ title: 'Change Admin Password', input: 'password', showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
             if (p) Swal.fire({ title: 'Success', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+        }
+
+        async function downloadReport() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/report/daily`);
+                if (!response.ok) throw new Error('Report data fetch failed');
+                const data = await response.json();
+                
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Add header
+                doc.setFontSize(22);
+                doc.setTextColor(37, 99, 235); // Blue-600
+                doc.text("ParkMaster Pro | Daily Report", 105, 20, { align: 'center' });
+                
+                doc.setFontSize(12);
+                doc.setTextColor(100);
+                doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, 30, { align: 'center' });
+                doc.text(`Target Date: ${data.date}`, 105, 37, { align: 'center' });
+                
+                // Add Summary Table
+                doc.autoTable({
+                    startY: 50,
+                    head: [['Metric', 'Value']],
+                    body: [
+                        ['Total Revenue', `$${data.revenue.toFixed(2)}`],
+                        ['Vehicle Entries', data.entries.toString()],
+                        ['Vehicle Exits', data.exits.toString()],
+                        ['Staff Logins', data.logins.length.toString()]
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [37, 99, 235] }
+                });
+                
+                // Add Login Details Table
+                if (data.logins && data.logins.length > 0) {
+                    doc.setFontSize(14);
+                    doc.setTextColor(0);
+                    doc.text("Staff Login Activity", 14, doc.lastAutoTable.finalY + 20);
+                    
+                    const loginRows = data.logins.map(log => [
+                        new Date(log[0]).toLocaleTimeString(),
+                        log[1]
+                    ]);
+                    
+                    doc.autoTable({
+                        startY: doc.lastAutoTable.finalY + 25,
+                        head: [['Time', 'Username']],
+                        body: loginRows,
+                        theme: 'grid',
+                        headStyles: { fillColor: [71, 85, 105] } // Slate-600
+                    });
+                } else {
+                    doc.text("No staff login activity recorded for today.", 14, doc.lastAutoTable.finalY + 20);
+                }
+                
+                doc.save(`daily_report_${data.date}.pdf`);
+                
+                Swal.fire({ title: 'Downloaded', text: 'Daily PDF report has been saved.', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+            } catch (err) {
+                console.error(err);
+                Swal.fire({ title: 'Error', text: err.message, icon: 'error', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+            }
         }
 
         function toggleDarkMode() {

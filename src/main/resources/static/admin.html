@@ -197,7 +197,9 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        const API_BASE = '/api';
         let selectedSlotId = null;
 
         // Navigation
@@ -230,19 +232,49 @@
             slots.forEach(slot => {
                 const div = document.createElement('div');
                 const isOccupied = slot.occupied !== undefined ? slot.occupied : slot.isOccupied;
-                div.className = `p-6 rounded border transition-all hover:bg-white/5 text-center cursor-pointer ${isOccupied ? 'slot-occupied' : 'slot-free'}`;
+                const isBooked = slot.bookedByStaff;
+                
+                div.className = `p-6 rounded border transition-all hover:bg-white/5 text-center cursor-pointer ${isOccupied ? 'slot-occupied' : (isBooked ? 'bg-blue-500/10 border-blue-500/20' : 'slot-free')}`;
+                
+                let statusText = isOccupied ? 'Occupied' : (isBooked ? 'Reserved' : 'Free');
+                let statusClass = isOccupied ? 'text-red-400' : (isBooked ? 'text-blue-400' : 'text-green-500');
+
                 div.innerHTML = `
                     <div class="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-1">Slot</div>
                     <div class="text-lg font-bold text-white">${slot.slotNumber}</div>
-                    <div class="mt-2 text-[9px] font-bold uppercase tracking-wider ${isOccupied ? 'text-red-400' : 'text-green-500'}">
-                        ${isOccupied ? 'Occupied' : 'Free'}
+                    <div class="mt-2 text-[9px] font-bold uppercase tracking-wider ${statusClass}">
+                        ${statusText}
                     </div>
                 `;
+                
                 div.onclick = () => {
                     if (isOccupied) {
                         selectedSlotId = slot.id;
                         document.getElementById('exit-slot-number').textContent = slot.slotNumber;
                         document.getElementById('exit-modal').classList.remove('hidden');
+                    } else if (isBooked) {
+                        Swal.fire({
+                            title: `Reserved Slot: ${slot.slotNumber}`,
+                            text: 'This slot is reserved. As admin, you can:',
+                            icon: 'info',
+                            showCancelButton: true,
+                            showDenyButton: true,
+                            confirmButtonText: 'Release Reservation',
+                            denyButtonText: 'Force Park Vehicle',
+                            cancelButtonText: 'Cancel',
+                            confirmButtonColor: '#ef4444',
+                            denyButtonColor: '#3b82f6',
+                            background: '#1e293b',
+                            color: '#fff'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch(`${API_BASE}/staff/unbook/${slot.id}/0`, { method: 'POST' }).then(r => {
+                                    if (r.ok) { fetchSlots(); Swal.fire('Released', '', 'success'); }
+                                });
+                            } else if (result.isDenied) {
+                                showEntryModal(slot.id, slot.slotNumber);
+                            }
+                        });
                     } else {
                         showEntryModal(slot.id, slot.slotNumber);
                     }

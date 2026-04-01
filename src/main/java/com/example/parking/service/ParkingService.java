@@ -11,6 +11,8 @@ import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class ParkingService {
@@ -139,14 +141,15 @@ public class ParkingService {
         ParkingSlot slot = fileRepository.findSlotById(slotId)
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
 
-        if (!staffId.equals(slot.getStaffId())) {
+        // If staffId is 0, it's an admin override
+        if (staffId != 0 && !staffId.equals(slot.getStaffId())) {
             throw new RuntimeException("This slot is not booked by you");
         }
 
         slot.setBookedByStaff(false);
         slot.setStaffId(null);
         fileRepository.saveSlot(slot);
-        syncToFile("STAFF_UNBOOKING (Staff: " + staffId + " | Slot: " + slot.getSlotNumber() + ")");
+        syncToFile("STAFF_UNBOOKING (" + (staffId == 0 ? "ADMIN_OVERRIDE" : "Staff: " + staffId) + " | Slot: " + slot.getSlotNumber() + ")");
     }
 
     public Ticket parkVehicle(String vehicleNumber, Long preferredSlotId) {
@@ -203,7 +206,29 @@ public class ParkingService {
         syncToFile("VEHICLE_EXIT (Vehicle: " + ticket.getVehicleNumber() + " | Slot: " + slot.getSlotNumber() + ")");
         return saved;
     }
-    
+
+    public Map<String, Object> getDailyReportData() {
+        java.time.LocalDate today = java.time.LocalDate.now();
+        java.time.LocalDateTime startOfDay = today.atStartOfDay();
+        
+        List<Ticket> tickets = fileRepository.findAllTickets();
+        double revenue = tickets.stream()
+                .filter(t -> t.getExitTime() != null && t.getExitTime().isAfter(startOfDay))
+                .mapToDouble(t -> t.getAmount() != null ? t.getAmount() : 0.0)
+                .sum();
+        long entries = tickets.stream().filter(t -> t.getEntryTime().isAfter(startOfDay)).count();
+        long exits = tickets.stream().filter(t -> t.getExitTime() != null && t.getExitTime().isAfter(startOfDay)).count();
+        List<String[]> logins = fileRepository.getLoginsForDate(today);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("date", today.toString());
+        data.put("revenue", revenue);
+        data.put("entries", entries);
+        data.put("exits", exits);
+        data.put("logins", logins);
+        return data;
+    }
+
     public List<Ticket> getHistory() {
         return fileRepository.findAllTickets();
     }

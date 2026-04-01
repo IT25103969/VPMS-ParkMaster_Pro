@@ -39,8 +39,12 @@ public class StaffService {
     }
 
     public Optional<Staff> login(String username, String password) {
-        return fileRepository.findStaffByUsername(username)
+        Optional<Staff> staff = fileRepository.findStaffByUsername(username)
                 .filter(m -> m.getPassword().equals(password) && m.isActive());
+        if (staff.isPresent()) {
+            fileRepository.logLogin(username);
+        }
+        return staff;
     }
 
     public void changePassword(Long staffId, String newPassword) {

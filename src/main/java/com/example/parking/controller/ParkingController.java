@@ -95,6 +95,11 @@ public class ParkingController {
         ));
     }
 
+    @GetMapping("/admin/report/daily")
+    public ResponseEntity<Map<String, Object>> getDailyReportData() {
+        return ResponseEntity.ok(parkingService.getDailyReportData());
+    }
+
     @GetMapping("/admin/slots/count")
     public ResponseEntity<?> getSlotCount() {
         return ResponseEntity.ok(Map.of("count", parkingService.getSlotCount()));
