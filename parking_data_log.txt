@@ -2323,3 +2323,1107 @@ Slot A33: Free | Reserved: No
 Slot A34: Free | Reserved: No
 Active Tickets:
 -------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-01T05:57:55.764449900
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 0
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Free | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T21:38:34.308016200
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 0
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Free | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T21:38:36.415165
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 0
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Free | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T21:39:09.550742800
+Operation: VEHICLE_ENTRY (Vehicle: CAC-3358 | Slot: A28)
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T21:56:37.520484600
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T21:57:08.334912100
+Operation: UPDATE_ADMIN_PASSWORD
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:04:14.758200700
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:13:29.107761
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:15:40.518148200
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:17:12.837978200
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:18:37.889535900
+Operation: STAFF_BOOKING (Staff: 3 | Slot: A26)
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: Staff ID 3
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:18:46.100436300
+Operation: STAFF_UNBOOKING (Staff: 3 | Slot: A26)
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:18:49.291766400
+Operation: STAFF_BOOKING (Staff: 3 | Slot: A26)
+Active Sessions: 1
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Free | Reserved: Staff ID 3
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:18:54.774909300
+Operation: VEHICLE_ENTRY (Vehicle: CAC-3358 | Slot: A26)
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:19:29.114466500
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:23:55.077547800
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:24:17.675527300
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:26:18.443559100
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:30:22.782332100
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:34:10.339613900
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:35:56.098482200
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-03T22:46:39.419872600
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-13T01:59:40.022132500
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-13T02:30:07.464770400
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 2
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Free | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-13T02:34:44.655899700
+Operation: VEHICLE_ENTRY (Vehicle: CCC-6969 | Slot: A27)
+Active Sessions: 3
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Occupied | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+ - Vehicle: CCC-6969 | Slot: A27 | Entry: 2026-04-13T02:34:44.645793400
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Timestamp: 2026-04-13T02:49:39.434913400
+Operation: SYSTEM_INITIALIZATION
+Active Sessions: 3
+Parking Map Status:
+Slot A1: Free | Reserved: No
+Slot A2: Free | Reserved: No
+Slot A3: Free | Reserved: No
+Slot A4: Free | Reserved: No
+Slot A5: Free | Reserved: No
+Slot A6: Free | Reserved: No
+Slot A7: Free | Reserved: No
+Slot A8: Free | Reserved: No
+Slot A9: Free | Reserved: No
+Slot A10: Free | Reserved: No
+Slot A11: Free | Reserved: No
+Slot A12: Free | Reserved: No
+Slot A13: Free | Reserved: No
+Slot A14: Free | Reserved: No
+Slot A15: Free | Reserved: No
+Slot A16: Free | Reserved: No
+Slot A17: Free | Reserved: No
+Slot A18: Free | Reserved: No
+Slot A19: Free | Reserved: No
+Slot A20: Free | Reserved: No
+Slot A21: Free | Reserved: No
+Slot A22: Free | Reserved: No
+Slot A23: Free | Reserved: No
+Slot A24: Free | Reserved: No
+Slot A25: Free | Reserved: No
+Slot A26: Occupied | Reserved: No
+Slot A27: Occupied | Reserved: No
+Slot A28: Occupied | Reserved: No
+Slot A29: Free | Reserved: No
+Slot A30: Free | Reserved: No
+Slot A31: Free | Reserved: No
+Slot A32: Free | Reserved: No
+Slot A33: Free | Reserved: No
+Slot A34: Free | Reserved: No
+Active Tickets:
+ - Vehicle: CAC-3358 | Slot: A28 | Entry: 2026-04-03T21:39:09.542660800
+ - Vehicle: CAC-3358 | Slot: A26 | Entry: 2026-04-03T22:18:54.774909300
+ - Vehicle: CCC-6969 | Slot: A27 | Entry: 2026-04-13T02:34:44.645793400
+-------------------------------------------------------------------------------

@@ -25,8 +25,10 @@ public class ParkingService {
 
     private static final String RATE_KEY = "HOURLY_RATE";
     private static final String SLOT_COUNT_KEY = "SLOT_COUNT";
+    private static final String ADMIN_PASSWORD_KEY = "ADMIN_PASSWORD";
     private static final String DEFAULT_RATE = "10.0";
     private static final String DEFAULT_SLOT_COUNT = "20";
+    private static final String DEFAULT_ADMIN_PASSWORD = "admin123";
 
     @PostConstruct
     public void init() {
@@ -35,6 +37,9 @@ public class ParkingService {
         }
         if (fileRepository.findSettingByKey(SLOT_COUNT_KEY).isEmpty()) {
             fileRepository.saveSetting(new Setting(null, SLOT_COUNT_KEY, DEFAULT_SLOT_COUNT));
+        }
+        if (fileRepository.findSettingByKey(ADMIN_PASSWORD_KEY).isEmpty()) {
+            fileRepository.saveSetting(new Setting(null, ADMIN_PASSWORD_KEY, DEFAULT_ADMIN_PASSWORD));
         }
         
         int count = getSlotCount();
@@ -152,7 +157,14 @@ public class ParkingService {
         syncToFile("STAFF_UNBOOKING (" + (staffId == 0 ? "ADMIN_OVERRIDE" : "Staff: " + staffId) + " | Slot: " + slot.getSlotNumber() + ")");
     }
 
-    public Ticket parkVehicle(String vehicleNumber, Long preferredSlotId) {
+    public Ticket parkVehicle(String vehicleNumber, String vehicleType, Long preferredSlotId) {
+        if (vehicleNumber == null || !vehicleNumber.matches("^[A-Z]{2,3}[0-9]{4}$")) {
+            throw new RuntimeException("Invalid vehicle number format. Must be 3 letters (or 2) followed by 4 numbers (e.g. ABC1234 or AB1234)");
+        }
+        if (vehicleType == null || vehicleType.isEmpty()) {
+            throw new RuntimeException("Vehicle type is required");
+        }
+
         ParkingSlot slot = null;
         if (preferredSlotId != null) {
             slot = fileRepository.findSlotById(preferredSlotId)
@@ -176,12 +188,13 @@ public class ParkingService {
 
         Ticket ticket = new Ticket();
         ticket.setVehicleNumber(vehicleNumber);
+        ticket.setVehicleType(vehicleType);
         ticket.setEntryTime(LocalDateTime.now());
         ticket.setStatus(Ticket.TicketStatus.ACTIVE);
         ticket.setSlot(slot);
         
         Ticket saved = fileRepository.saveTicket(ticket);
-        syncToFile("VEHICLE_ENTRY (Vehicle: " + vehicleNumber + " | Slot: " + slot.getSlotNumber() + ")");
+        syncToFile("VEHICLE_ENTRY (Vehicle: " + vehicleNumber + " [" + vehicleType + "] | Slot: " + slot.getSlotNumber() + ")");
         return saved;
     }
 
@@ -245,5 +258,19 @@ public class ParkingService {
         return fileRepository.findAllTickets().stream()
                 .mapToDouble(t -> t.getAmount() != null ? t.getAmount() : 0.0)
                 .sum();
+    }
+
+    public String getAdminPassword() {
+        return fileRepository.findSettingByKey(ADMIN_PASSWORD_KEY)
+                .map(Setting::getConfigValue)
+                .orElse(DEFAULT_ADMIN_PASSWORD);
+    }
+
+    public void updateAdminPassword(String newPassword) {
+        Setting setting = fileRepository.findSettingByKey(ADMIN_PASSWORD_KEY)
+                .orElse(new Setting(null, ADMIN_PASSWORD_KEY, newPassword));
+        setting.setConfigValue(newPassword);
+        fileRepository.saveSetting(setting);
+        syncToFile("UPDATE_ADMIN_PASSWORD");
     }
 }

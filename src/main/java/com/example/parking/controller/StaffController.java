@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,12 +27,13 @@ public class StaffController {
         
         Optional<Staff> staff = staffService.login(username, password);
         if (staff.isPresent()) {
-            return ResponseEntity.ok(Map.of(
-                "token", "staff-sim-token-" + staff.get().getId(),
-                "role", "STAFF",
-                "id", staff.get().getId(),
-                "name", staff.get().getName()
-            ));
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", "staff-sim-token-" + staff.get().getId());
+            response.put("role", "STAFF");
+            response.put("id", staff.get().getId());
+            response.put("name", staff.get().getName());
+            response.put("accessibleTabs", staff.get().getAccessibleTabs());
+            return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(401).body("Invalid staff credentials");
     }

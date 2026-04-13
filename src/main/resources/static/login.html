@@ -14,7 +14,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s; }
         .glass {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -23,14 +23,14 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
         }
         .dark .gradient-bg {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         }
     </style>
 </head>
-<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4 text-white">
 
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -47,16 +47,16 @@
         </button>
     </div>
 
-    <div class="glass w-full max-w-md rounded-3xl p-8 shadow-2xl border border-white">
+    <div class="glass w-full max-w-md rounded-3xl p-8 shadow-2xl border border-white/30">
         <div class="text-center mb-8">
-            <div class="bg-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-white shadow-lg">
+            <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-white shadow-lg backdrop-blur-md border border-white/30">
                 <i data-lucide="car" class="w-8 h-8"></i>
             </div>
             <h1 class="text-3xl font-bold text-white tracking-tight">ParkMaster Pro</h1>
-            <p class="text-blue-100/80 mt-2">Secure access to your system</p>
+            <p class="text-white/80 mt-2">Secure access to your system</p>
         </div>
 
-        <div class="flex bg-white/10 p-1 rounded-xl mb-8">
+        <div class="flex bg-black/10 p-1 rounded-xl mb-8">
             <button id="tab-admin" onclick="switchRole('ADMIN')" class="flex-1 py-2.5 rounded-lg text-sm font-bold transition-all text-white bg-white/20 shadow-sm">Admin</button>
             <button id="tab-staff" onclick="switchRole('STAFF')" class="flex-1 py-2.5 rounded-lg text-sm font-bold transition-all text-white/60 hover:text-white">Staff</button>
         </div>
@@ -65,9 +65,9 @@
             <div class="space-y-2">
                 <label class="block text-sm font-semibold text-white/90">Username</label>
                 <div class="relative">
-                    <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60"></i>
+                    <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"></i>
                     <input type="text" id="username" required 
-                        class="w-full glass bg-white/5 border-none pl-12 pr-4 py-3.5 rounded-xl text-white placeholder-white/40 focus:ring-2 focus:ring-white/50 outline-none transition-all"
+                        class="w-full glass bg-white/10 border-white/20 pl-12 pr-4 py-3.5 rounded-xl text-white placeholder-white/50 focus:bg-white/20 focus:ring-2 focus:ring-white/50 outline-none transition-all"
                         placeholder="Enter your username">
                 </div>
             </div>
@@ -75,14 +75,14 @@
             <div class="space-y-2">
                 <label class="block text-sm font-semibold text-white/90">Password</label>
                 <div class="relative">
-                    <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60"></i>
+                    <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"></i>
                     <input type="password" id="password" required 
-                        class="w-full glass bg-white/5 border-none pl-12 pr-4 py-3.5 rounded-xl text-white placeholder-white/40 focus:ring-2 focus:ring-white/50 outline-none transition-all"
+                        class="w-full glass bg-white/10 border-white/20 pl-12 pr-4 py-3.5 rounded-xl text-white placeholder-white/50 focus:bg-white/20 focus:ring-2 focus:ring-white/50 outline-none transition-all"
                         placeholder="••••••••">
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-white dark:bg-blue-600 text-blue-600 dark:text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-50 dark:hover:bg-blue-700 transition-all shadow-xl active:scale-[0.98]">
+            <button type="submit" class="w-full bg-white text-indigo-600 dark:bg-indigo-600 dark:text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-xl active:scale-[0.98]">
                 Sign In
             </button>
         </form>
@@ -139,6 +139,16 @@
                     sessionStorage.setItem('role', data.role);
                     sessionStorage.setItem('userId', data.id);
                     sessionStorage.setItem('userName', data.name);
+                    
+                    let tabs = data.accessibleTabs;
+                    if (data.role === 'ADMIN') {
+                        tabs = ['dashboard', 'slots', 'history', 'membership', 'settings'];
+                    } else if (!tabs || tabs.length === 0) {
+                        // For staff, if none are assigned, we can default to dashboard ONLY to be safe
+                        // or just leave it empty. Let's default to dashboard so they aren't stuck.
+                        tabs = ['dashboard']; 
+                    }
+                    sessionStorage.setItem('accessibleTabs', JSON.stringify(tabs));
                     
                     Swal.fire({ ...swalConfig, icon: 'success', title: 'Success', text: 'Welcome back!', timer: 1000, showConfirmButton: false }).then(() => {
                         window.location.href = 'index.html';

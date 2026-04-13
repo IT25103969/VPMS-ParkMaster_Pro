@@ -2,6 +2,8 @@ package com.example.parking.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Staff implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,10 +15,12 @@ public class Staff implements Serializable {
     private String password;
     private LocalDate joinDate = LocalDate.now();
     private boolean active = true;
+    private List<String> accessibleTabs = new ArrayList<>();
 
     public Staff() {
         this.joinDate = LocalDate.now();
         this.active = true;
+        this.accessibleTabs = new ArrayList<>();
     }
 
     public Staff(Long id, String name, String department, String username, String password) {
@@ -27,6 +31,7 @@ public class Staff implements Serializable {
         this.password = password;
         this.joinDate = LocalDate.now();
         this.active = true;
+        this.accessibleTabs = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -50,4 +55,7 @@ public class Staff implements Serializable {
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+
+    public List<String> getAccessibleTabs() { return accessibleTabs; }
+    public void setAccessibleTabs(List<String> accessibleTabs) { this.accessibleTabs = accessibleTabs; }
 }

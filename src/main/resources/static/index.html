@@ -83,17 +83,23 @@
         </div>
 
         <nav class="flex-1 space-y-1">
-            <div onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-item active flex items-center space-x-3 p-3 rounded-xl">
-                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-                <span class="font-medium">Dashboard</span>
+            <div id="nav-dashboard-container">
+                <div onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-item active flex items-center space-x-3 p-3 rounded-xl">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span class="font-medium">Dashboard</span>
+                </div>
             </div>
-            <div onclick="switchTab('slots')" id="nav-slots" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
-                <i data-lucide="parking-circle" class="w-5 h-5"></i>
-                <span class="font-medium">Parking Slots</span>
+            <div id="nav-slots-container">
+                <div onclick="switchTab('slots')" id="nav-slots" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
+                    <i data-lucide="parking-circle" class="w-5 h-5"></i>
+                    <span class="font-medium">Parking Slots</span>
+                </div>
             </div>
-            <div onclick="switchTab('history')" id="nav-history" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
-                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                <span class="font-medium">Analytics</span>
+            <div id="nav-history-container">
+                <div onclick="switchTab('history')" id="nav-history" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    <span class="font-medium">Analytics</span>
+                </div>
             </div>
             <div id="nav-membership-container">
                 <div onclick="switchTab('membership')" id="nav-membership" class="sidebar-item flex items-center space-x-3 p-3 rounded-xl text-gray-500 dark:text-slate-400">
@@ -241,7 +247,7 @@
                                 <th class="pb-4">Staff Name</th>
                                 <th class="pb-4">Department</th>
                                 <th class="pb-4">Username</th>
-                                <th class="pb-4">Joined</th>
+                                <th class="pb-4">Access Permissions</th>
                                 <th class="pb-4">Action</th>
                             </tr>
                         </thead>
@@ -270,7 +276,7 @@
                             <label class="block text-xs font-bold text-gray-400 uppercase mb-2">30-Day Cycle Fee ($)</label>
                             <input type="number" id="input-member-fee" step="1" class="w-full glass px-4 py-3 rounded-xl outline-none dark:text-white">
                         </div>
-                        <button onclick="updateMemberFee()" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700">Update Membership Fee</button>
+                        <button onclick="updateMemberFee()" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:purple-700">Update Membership Fee</button>
                     </div>
                 </div>
             </div>
@@ -339,24 +345,53 @@
         document.getElementById('user-role-display').textContent = role || 'Role';
         document.getElementById('user-initials').textContent = (userName || 'U').substring(0, 2).toUpperCase();
 
-        if (role === 'STAFF') {
-            document.getElementById('nav-membership-container').style.display = 'none';
-            document.getElementById('nav-settings-container').style.display = 'none';
-            document.getElementById('staff-legend').classList.remove('hidden');
+        const accessibleTabs = JSON.parse(sessionStorage.getItem('accessibleTabs') || '[]');
+
+        function applyPermissions() {
+            if (role === 'ADMIN') return;
+
+            const effectiveTabs = accessibleTabs;
+            const allTabs = ['dashboard', 'slots', 'history', 'membership', 'settings'];
+            
+            allTabs.forEach(tab => {
+                const navContainer = document.getElementById('nav-' + tab + '-container');
+                const navItem = document.getElementById('nav-' + tab);
+                const isAccessible = effectiveTabs.includes(tab);
+                
+                if (navContainer) {
+                    navContainer.style.display = isAccessible ? 'block' : 'none';
+                } else if (navItem) {
+                    navItem.style.display = isAccessible ? 'flex' : 'none';
+                }
+            });
+
+            if (role === 'STAFF') {
+                document.getElementById('staff-legend').classList.remove('hidden');
+            }
         }
 
         function switchTab(tabId) {
-            if (role === 'STAFF' && (tabId === 'membership' || tabId === 'settings')) {
-                window.location.href = 'access-denied.html';
+            // Permission check
+            if (role !== 'ADMIN' && !accessibleTabs.includes(tabId)) {
+                if (accessibleTabs.length > 0) {
+                    const firstTab = accessibleTabs[0];
+                    if (tabId !== firstTab) return switchTab(firstTab);
+                }
                 return;
             }
 
             currentTab = tabId;
+            
+            // Hide all contents and deactivate all nav items
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active', 'text-gray-500', 'dark:text-slate-400'));
             
-            document.getElementById('tab-' + tabId).classList.add('active');
-            document.getElementById('nav-' + tabId).classList.add('active');
+            // Activate target content and nav item
+            const content = document.getElementById('tab-' + tabId);
+            const nav = document.getElementById('nav-' + tabId);
+            
+            if (content) content.classList.add('active');
+            if (nav) nav.classList.add('active');
             
             const titles = {
                 dashboard: ['Overview Dashboard', 'Manage your parking facility with ease.'],
@@ -366,8 +401,11 @@
                 settings: ['System Settings', 'Configure rates and system capacity.']
             };
             
-            document.getElementById('page-title').textContent = titles[tabId][0];
-            document.getElementById('page-subtitle').textContent = titles[tabId][1];
+            if (titles[tabId]) {
+                document.getElementById('page-title').textContent = titles[tabId][0];
+                document.getElementById('page-subtitle').textContent = titles[tabId][1];
+            }
+            
             document.querySelectorAll('.sidebar-item:not(.active)').forEach(i => i.classList.add('text-gray-500', 'dark:text-slate-400'));
             
             loadData();
@@ -396,9 +434,9 @@
                 } else if (currentTab === 'history') {
                     renderHistory(history);
                     renderChart(history);
-                } else if (currentTab === 'membership' && role === 'ADMIN') {
+                } else if (currentTab === 'membership') {
                     renderMembers();
-                } else if (currentTab === 'settings' && role === 'ADMIN') {
+                } else if (currentTab === 'settings') {
                     document.getElementById('input-hourly-rate').value = rate.rate;
                     document.getElementById('input-slot-count').value = count.count;
                     loadMonthlyMemberData();
@@ -463,8 +501,6 @@
         let revenueChart = null;
         function renderChart(history) {
             const ctx = document.getElementById('revenueChart').getContext('2d');
-            
-            // Process data for chart (Group revenue by day)
             const dailyData = {};
             history.filter(t => t.status === 'COMPLETED').forEach(t => {
                 const date = new Date(t.exitTime).toLocaleDateString();
@@ -475,7 +511,6 @@
             const data = labels.map(l => dailyData[l]);
 
             if (revenueChart) revenueChart.destroy();
-
             const isDark = document.documentElement.classList.contains('dark');
             const color = isDark ? '#3b82f6' : '#2563eb';
             const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
@@ -549,7 +584,12 @@
             const body = document.getElementById('history-body');
             body.innerHTML = history.slice().reverse().map(t => `
                 <tr class="hover:bg-white dark:hover:bg-slate-800/50 text-sm">
-                    <td class="py-4 font-bold text-gray-700 dark:text-slate-200">${t.vehicleNumber}</td>
+                    <td class="py-4 font-bold text-gray-700 dark:text-slate-200">
+                        <div class="flex flex-col">
+                            <span>${t.vehicleNumber}</span>
+                            <span class="text-[10px] text-blue-500 font-bold uppercase">${t.vehicleType || 'Unknown'}</span>
+                        </div>
+                    </td>
                     <td class="py-4 text-gray-500 dark:text-slate-400">${new Date(t.entryTime).toLocaleString()}</td>
                     <td class="py-4 text-gray-500 dark:text-slate-400">${t.exitTime ? new Date(t.exitTime).toLocaleString() : '-'}</td>
                     <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">${t.slot ? t.slot.slotNumber : '-'}</td>
@@ -568,7 +608,11 @@
                     <td class="py-4 font-bold text-gray-700 dark:text-slate-200">${m.name}</td>
                     <td class="py-4 text-gray-500 dark:text-slate-400">${m.department}</td>
                     <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">${m.username}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.joinDate}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">
+                        <div class="flex flex-wrap gap-1">
+                            ${(m.accessibleTabs || []).map(t => `<span class="px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded text-[10px] uppercase font-bold border border-blue-200 dark:border-blue-800">${t}</span>`).join('') || '<span class="text-gray-400">None</span>'}
+                        </div>
+                    </td>
                     <td class="py-4"><button onclick="deleteMember(${m.id})" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
                 </tr>
             `).join('');
@@ -578,8 +622,33 @@
         async function showAddMemberModal() {
             const { value: v } = await Swal.fire({
                 title: 'Add Staff Member',
-                html: '<input id="n" class="swal2-input" placeholder="Full Name"><input id="s" class="swal2-input" placeholder="Department"><input id="u" class="swal2-input" placeholder="Username"><input id="p" type="password" class="swal2-input" placeholder="Password">',
-                preConfirm: () => ({ name: document.getElementById('n').value, department: document.getElementById('s').value, username: document.getElementById('u').value, password: document.getElementById('p').value }),
+                html: `
+                    <input id="n" class="swal2-input" placeholder="Full Name">
+                    <input id="s" class="swal2-input" placeholder="Department">
+                    <input id="u" class="swal2-input" placeholder="Username">
+                    <input id="p" type="password" class="swal2-input" placeholder="Password">
+                    <div class="mt-4 text-left">
+                        <p class="text-sm font-bold mb-2">Accessible Tabs:</p>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <label><input type="checkbox" name="tabs" value="dashboard" checked> Dashboard</label>
+                            <label><input type="checkbox" name="tabs" value="slots" checked> Slots</label>
+                            <label><input type="checkbox" name="tabs" value="history" checked> Analytics</label>
+                            <label><input type="checkbox" name="tabs" value="membership"> Staff Management</label>
+                            <label><input type="checkbox" name="tabs" value="settings"> Settings</label>
+                        </div>
+                    </div>
+                `,
+                preConfirm: () => {
+                    const popup = Swal.getPopup();
+                    const selectedTabs = Array.from(popup.querySelectorAll('input[name="tabs"]:checked')).map(cb => cb.value);
+                    return { 
+                        name: popup.querySelector('#n').value, 
+                        department: popup.querySelector('#s').value, 
+                        username: popup.querySelector('#u').value, 
+                        password: popup.querySelector('#p').value,
+                        accessibleTabs: selectedTabs
+                    }
+                },
                 background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
                 color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
             });
@@ -599,12 +668,11 @@
 
         function handleSlotAction(id, number, occupied, booked, staffId) {
             if (role === 'ADMIN') {
-                if (occupied) {
-                    handleExit(id, number);
-                } else if (booked) {
+                if (occupied) handleExit(id, number);
+                else if (booked) {
                     Swal.fire({
                         title: `Reserved Slot: ${number}`,
-                        text: 'This slot is reserved by a staff member. As admin, you can:',
+                        text: 'This slot is reserved by a staff member.',
                         icon: 'info',
                         showCancelButton: true,
                         showDenyButton: true,
@@ -617,22 +685,13 @@
                         color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Release reservation using admin override (staffId=0)
-                            const endpoint = `${API_BASE}/staff/unbook/${id}/0`;
-                            fetch(endpoint, { method: 'POST' }).then(res => {
-                                if (res.ok) { loadData(); Swal.fire('Released', '', 'success'); }
-                            });
-                        } else if (result.isDenied) {
-                            handleEntrySpecific(id, number);
-                        }
+                            fetch(`${API_BASE}/staff/unbook/${id}/0`, { method: 'POST' }).then(res => { if (res.ok) { loadData(); Swal.fire('Released', '', 'success'); } });
+                        } else if (result.isDenied) handleEntrySpecific(id, number);
                     });
-                } else {
-                    handleEntrySpecific(id, number);
-                }
+                } else handleEntrySpecific(id, number);
             } else if (role === 'STAFF') {
-                if (occupied) {
-                    handleExit(id, number);
-                } else if (booked) {
+                if (occupied) handleExit(id, number);
+                else if (booked) {
                     if (staffId == userId) {
                         Swal.fire({
                             title: `Your Reserved Slot: ${number}`,
@@ -648,20 +707,14 @@
                             background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
                             color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
                         }).then((result) => {
-                            if (result.isConfirmed) {
-                                toggleBooking(id, true);
-                            } else if (result.isDenied) {
-                                handleEntrySpecific(id, number);
-                            }
+                            if (result.isConfirmed) toggleBooking(id, true);
+                            else if (result.isDenied) handleEntrySpecific(id, number);
                         });
-                    } else {
-                        Swal.fire({ title: 'Reserved', text: 'This slot is reserved by another staff member.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-                    }
+                    } else Swal.fire({ title: 'Reserved', text: 'Slot reserved by another staff.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
                 } else {
-                    // STAFF options for FREE slot
                     Swal.fire({
                         title: `Slot ${number}`,
-                        text: 'Choose an action for this available slot:',
+                        text: 'Choose an action:',
                         icon: 'question',
                         showCancelButton: true,
                         showDenyButton: true,
@@ -673,33 +726,48 @@
                         background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
                         color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
                     }).then((result) => {
-                        if (result.isConfirmed) {
-                            toggleBooking(id, false);
-                        } else if (result.isDenied) {
-                            handleEntrySpecific(id, number);
-                        }
+                        if (result.isConfirmed) toggleBooking(id, false);
+                        else if (result.isDenied) handleEntrySpecific(id, number);
                     });
                 }
             }
         }
 
         async function handleEntrySpecific(slotId, slotNumber) {
-            const { value: v } = await Swal.fire({ 
-                title: 'Vehicle Entry', 
+            const { value: v } = await Swal.fire({
+                title: 'Vehicle Entry',
                 text: `Parking into Slot ${slotNumber}`,
-                input: 'text', 
-                showCancelButton: true, 
-                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', 
-                color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' 
+                html: `
+                    <div class="space-y-4">
+                        <input id="vn" class="swal2-input !m-0 !w-full" placeholder="Number Plate (e.g. ABC1234)">
+                        <select id="vt" class="swal2-input !m-0 !w-full">
+                            <option value="CAR">Car</option>
+                            <option value="BIKE">Bike</option>
+                            <option value="VAN">Van</option>
+                        </select>
+                    </div>
+                `,
+                preConfirm: () => {
+                    const vn = document.getElementById('vn').value.toUpperCase();
+                    const vt = document.getElementById('vt').value;
+                    if (!vn) {
+                        Swal.showValidationMessage('Vehicle number is required');
+                        return false;
+                    }
+                    return { vehicleNumber: vn, vehicleType: vt };
+                },
+                showCancelButton: true,
+                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
             });
+
             if (v) {
-                // Modified entry logic to use specific slot if needed (current API parks in first free, but we can improve it)
                 const res = await fetch(`${API_BASE}/tickets/entry`, { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
-                    body: JSON.stringify({ vehicleNumber: v, preferredSlotId: slotId }) 
+                    body: JSON.stringify({ ...v, preferredSlotId: slotId }) 
                 });
-                if (res.ok) { Swal.fire('Parked!', '', 'success'); loadData(); }
+                if (res.ok) { Swal.fire({ icon: 'success', title: 'Parked!', timer: 1000, showConfirmButton: false }); loadData(); }
                 else Swal.fire('Error', await res.text(), 'error');
             }
         }
@@ -707,19 +775,43 @@
         async function toggleBooking(slotId, isCurrentlyBooked) {
             const endpoint = isCurrentlyBooked ? `${API_BASE}/staff/unbook/${slotId}/${userId}` : `${API_BASE}/staff/book/${slotId}/${userId}`;
             const res = await fetch(endpoint, { method: 'POST' });
-            if (res.ok) {
-                Swal.fire({ icon: 'success', title: isCurrentlyBooked ? 'Slot Released' : 'Slot Reserved', timer: 1000, showConfirmButton: false, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-                loadData();
-            } else {
-                Swal.fire({ title: 'Error', text: await res.text(), icon: 'error', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-            }
+            if (res.ok) { Swal.fire({ icon: 'success', title: isCurrentlyBooked ? 'Released' : 'Reserved', timer: 1000, showConfirmButton: false, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' }); loadData(); }
         }
 
         async function handleEntry() {
-            const { value: v } = await Swal.fire({ title: 'Vehicle Entry', input: 'text', showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+            const { value: v } = await Swal.fire({
+                title: 'Vehicle Entry',
+                html: `
+                    <div class="space-y-4">
+                        <input id="vn" class="swal2-input !m-0 !w-full" placeholder="Number Plate (e.g. ABC1234)">
+                        <select id="vt" class="swal2-input !m-0 !w-full">
+                            <option value="CAR">Car</option>
+                            <option value="BIKE">Bike</option>
+                            <option value="VAN">Van</option>
+                        </select>
+                    </div>
+                `,
+                preConfirm: () => {
+                    const vn = document.getElementById('vn').value.toUpperCase();
+                    const vt = document.getElementById('vt').value;
+                    if (!vn) {
+                        Swal.showValidationMessage('Vehicle number is required');
+                        return false;
+                    }
+                    return { vehicleNumber: vn, vehicleType: vt };
+                },
+                showCancelButton: true,
+                background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff',
+                color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
+            });
+
             if (v) {
-                const res = await fetch(`${API_BASE}/tickets/entry`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ vehicleNumber: v }) });
-                if (res.ok) { Swal.fire('Parked!', '', 'success'); loadData(); }
+                const res = await fetch(`${API_BASE}/tickets/entry`, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify(v) 
+                });
+                if (res.ok) { Swal.fire({ icon: 'success', title: 'Parked!', timer: 1000, showConfirmButton: false }); loadData(); }
                 else Swal.fire('Error', await res.text(), 'error');
             }
         }
@@ -744,88 +836,51 @@
         }
 
         async function changeAdminPassword() {
-            const { value: p } = await Swal.fire({ title: 'Change Admin Password', input: 'password', showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-            if (p) Swal.fire({ title: 'Success', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+            const { value: p } = await Swal.fire({ title: 'Change Admin Password', input: 'password', showCancelButton: true, inputPlaceholder: 'Enter new password', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+            if (p) {
+                const res = await fetch(`${API_BASE}/admin/password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: p }) });
+                if (res.ok) Swal.fire({ title: 'Success', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
+            }
         }
 
         async function downloadReport() {
             try {
                 const response = await fetch(`${API_BASE}/admin/report/daily`);
-                if (!response.ok) throw new Error('Report data fetch failed');
                 const data = await response.json();
-                
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-                
-                // Add header
                 doc.setFontSize(22);
-                doc.setTextColor(37, 99, 235); // Blue-600
+                doc.setTextColor(37, 99, 235);
                 doc.text("ParkMaster Pro | Daily Report", 105, 20, { align: 'center' });
-                
-                doc.setFontSize(12);
-                doc.setTextColor(100);
-                doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, 30, { align: 'center' });
-                doc.text(`Target Date: ${data.date}`, 105, 37, { align: 'center' });
-                
-                // Add Summary Table
                 doc.autoTable({
                     startY: 50,
                     head: [['Metric', 'Value']],
-                    body: [
-                        ['Total Revenue', `$${data.revenue.toFixed(2)}`],
-                        ['Vehicle Entries', data.entries.toString()],
-                        ['Vehicle Exits', data.exits.toString()],
-                        ['Staff Logins', data.logins.length.toString()]
-                    ],
+                    body: [['Total Revenue', `$${data.revenue.toFixed(2)}`], ['Vehicle Entries', data.entries.toString()], ['Vehicle Exits', data.exits.toString()], ['Staff Logins', data.logins.length.toString()]],
                     theme: 'striped',
                     headStyles: { fillColor: [37, 99, 235] }
                 });
-                
-                // Add Login Details Table
-                if (data.logins && data.logins.length > 0) {
-                    doc.setFontSize(14);
-                    doc.setTextColor(0);
-                    doc.text("Staff Login Activity", 14, doc.lastAutoTable.finalY + 20);
-                    
-                    const loginRows = data.logins.map(log => [
-                        new Date(log[0]).toLocaleTimeString(),
-                        log[1]
-                    ]);
-                    
-                    doc.autoTable({
-                        startY: doc.lastAutoTable.finalY + 25,
-                        head: [['Time', 'Username']],
-                        body: loginRows,
-                        theme: 'grid',
-                        headStyles: { fillColor: [71, 85, 105] } // Slate-600
-                    });
-                } else {
-                    doc.text("No staff login activity recorded for today.", 14, doc.lastAutoTable.finalY + 20);
-                }
-                
                 doc.save(`daily_report_${data.date}.pdf`);
-                
-                Swal.fire({ title: 'Downloaded', text: 'Daily PDF report has been saved.', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-            } catch (err) {
-                console.error(err);
-                Swal.fire({ title: 'Error', text: err.message, icon: 'error', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
-            }
+            } catch (err) { console.error(err); }
         }
 
         function toggleDarkMode() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
             lucide.createIcons();
         }
 
         function logout() { sessionStorage.clear(); window.location.href = 'login.html'; }
 
-        switchTab('dashboard');
+        // Initial tab load based on permissions
+        applyPermissions();
+        if (role === 'ADMIN') {
+            switchTab('dashboard');
+        } else if (accessibleTabs && accessibleTabs.length > 0) {
+            switchTab(accessibleTabs[0]);
+        } else {
+            switchTab('dashboard'); // Fallback
+        }
+
         setInterval(loadData, 30000);
         lucide.createIcons();
     </script>

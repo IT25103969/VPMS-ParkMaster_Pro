@@ -24,11 +24,26 @@ public class ParkingController {
         String username = credentials.get("username");
         String password = credentials.get("password");
         
-        // Hardcoded admin for simplicity
-        if ("admin".equals(username) && "admin123".equals(password)) {
-            return ResponseEntity.ok(Map.of("token", "admin-sim-token", "role", "ADMIN", "name", "Administrator"));
+        // Use stored admin password
+        if ("admin".equals(username) && parkingService.getAdminPassword().equals(password)) {
+            return ResponseEntity.ok(Map.of(
+                "token", "admin-sim-token",
+                "role", "ADMIN",
+                "id", 0,
+                "name", "Administrator"
+            ));
         }
         return ResponseEntity.status(401).body("Invalid credentials");
+    }
+
+    @PostMapping("/admin/password")
+    public ResponseEntity<?> updateAdminPassword(@RequestBody Map<String, String> request) {
+        String newPassword = request.get("password");
+        if (newPassword == null || newPassword.length() < 4) {
+            return ResponseEntity.badRequest().body("Password too weak (min 4 characters)");
+        }
+        parkingService.updateAdminPassword(newPassword);
+        return ResponseEntity.ok(Map.of("message", "Admin password updated successfully"));
     }
 
     // --- Slots ---
@@ -41,6 +56,7 @@ public class ParkingController {
     @PostMapping("/tickets/entry")
     public ResponseEntity<?> parkVehicle(@RequestBody Map<String, Object> request) {
         String vehicleNumber = (String) request.get("vehicleNumber");
+        String vehicleType = (String) request.get("vehicleType");
         Number preferredSlotIdNum = (Number) request.get("preferredSlotId");
         Long preferredSlotId = preferredSlotIdNum != null ? preferredSlotIdNum.longValue() : null;
 
@@ -48,7 +64,7 @@ public class ParkingController {
             return ResponseEntity.badRequest().body("Vehicle number is required");
         }
         try {
-            Ticket ticket = parkingService.parkVehicle(vehicleNumber, preferredSlotId);
+            Ticket ticket = parkingService.parkVehicle(vehicleNumber, vehicleType, preferredSlotId);
             return ResponseEntity.ok(ticket);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

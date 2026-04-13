@@ -13,6 +13,7 @@ public class Ticket implements Serializable {
 
     private Long id;
     private String vehicleNumber;
+    private String vehicleType;
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
     private Double amount;
@@ -28,6 +29,9 @@ public class Ticket implements Serializable {
 
     public String getVehicleNumber() { return vehicleNumber; }
     public void setVehicleNumber(String vehicleNumber) { this.vehicleNumber = vehicleNumber; }
+
+    public String getVehicleType() { return vehicleType; }
+    public void setVehicleType(String vehicleType) { this.vehicleType = vehicleType; }
 
     public LocalDateTime getEntryTime() { return entryTime; }
     public void setEntryTime(LocalDateTime entryTime) { this.entryTime = entryTime; }

@@ -1,1 +1,1 @@
-[{"id":1,"configKey":"HOURLY_RATE","configValue":"10.0"},{"id":2,"configKey":"SLOT_COUNT","configValue":"34"}]
+[{"id":1,"configKey":"HOURLY_RATE","configValue":"10.0"},{"id":2,"configKey":"SLOT_COUNT","configValue":"34"},{"id":3,"configKey":"ADMIN_PASSWORD","configValue":"shihaz#1"}]
