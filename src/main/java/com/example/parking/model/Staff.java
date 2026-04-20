@@ -5,11 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Staff implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private Long id;
-    private String name;
+public class Staff extends User {
     private String department;
     private String username;
     private String password;
@@ -18,14 +14,14 @@ public class Staff implements Serializable {
     private List<String> accessibleTabs = new ArrayList<>();
 
     public Staff() {
+        super();
         this.joinDate = LocalDate.now();
         this.active = true;
         this.accessibleTabs = new ArrayList<>();
     }
 
-    public Staff(Long id, String name, String department, String username, String password) {
-        this.id = id;
-        this.name = name;
+    public Staff(Long id, String name, String email, String department, String username, String password) {
+        super(id, name, email);
         this.department = department;
         this.username = username;
         this.password = password;
@@ -35,12 +31,6 @@ public class Staff implements Serializable {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
     public String getDepartment() { return department; }
     public void setDepartment(String department) { this.department = department; }
 

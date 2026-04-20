@@ -5,6 +5,7 @@ import com.example.parking.model.Setting;
 import com.example.parking.model.Ticket;
 import com.example.parking.model.Staff;
 import com.example.parking.model.Member;
+import com.example.parking.model.ProblemReport;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -13,30 +14,44 @@ import org.springframework.stereotype.Repository;
 import jakarta.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
 public class FileRepository {
 
-    private final String SLOTS_FILE = "slots.txt";
-    private final String SETTINGS_FILE = "settings.txt";
-    private final String TICKETS_FILE = "tickets.txt";
-    private final String STAFF_FILE = "staff.txt";
-    private final String MEMBERS_FILE = "members.txt";
+    private final String DATA_DIR = "data/";
+    private final String SLOTS_FILE = DATA_DIR + "slots.txt";
+    private final String SETTINGS_FILE = DATA_DIR + "settings.txt";
+    private final String TICKETS_FILE = DATA_DIR + "tickets.txt";
+    private final String STAFF_FILE = DATA_DIR + "staff.txt";
+    private final String MEMBERS_FILE = DATA_DIR + "members.txt";
+    private final String LOGINS_FILE = DATA_DIR + "logins.txt";
+    private final String REPORTS_FILE = DATA_DIR + "reports.txt";
 
     private List<ParkingSlot> slots = new ArrayList<>();
     private List<Setting> settings = new ArrayList<>();
     private List<Ticket> tickets = new ArrayList<>();
     private List<Staff> staffMembers = new ArrayList<>();
     private List<Member> members = new ArrayList<>();
+    private List<ProblemReport> problemReports = new ArrayList<>();
 
     private AtomicLong slotIdGen = new AtomicLong(1);
     private AtomicLong settingIdGen = new AtomicLong(1);
     private AtomicLong ticketIdGen = new AtomicLong(1);
     private AtomicLong staffIdGen = new AtomicLong(1);
     private AtomicLong memberIdGen = new AtomicLong(1);
+    private AtomicLong reportIdGen = new AtomicLong(1);
 
     private final ObjectMapper mapper;
 
@@ -47,7 +62,32 @@ public class FileRepository {
 
     @PostConstruct
     public void init() {
+        ensureDataDirectoryExists();
+        migrateExistingFiles();
         loadAll();
+    }
+
+    private void ensureDataDirectoryExists() {
+        File dataDir = new File(DATA_DIR);
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+    }
+
+    private void migrateExistingFiles() {
+        String[] files = {"slots.txt", "settings.txt", "tickets.txt", "staff.txt", "members.txt", "logins.txt", "parking_data_log.txt", "reports.txt"};
+        for (String fileName : files) {
+            File oldFile = new File(fileName);
+            if (oldFile.exists() && oldFile.isFile()) {
+                File newFile = new File(DATA_DIR + fileName);
+                if (!newFile.exists()) {
+                    boolean success = oldFile.renameTo(newFile);
+                    if (success) {
+                        System.out.println("Migrated " + fileName + " to data/ directory.");
+                    }
+                }
+            }
+        }
     }
 
     private synchronized void loadAll() {
@@ -56,13 +96,15 @@ public class FileRepository {
         tickets = loadFromFile(TICKETS_FILE, new TypeReference<List<Ticket>>() {});
         staffMembers = loadFromFile(STAFF_FILE, new TypeReference<List<Staff>>() {});
         members = loadFromFile(MEMBERS_FILE, new TypeReference<List<Member>>() {});
+        problemReports = loadFromFile(REPORTS_FILE, new TypeReference<List<ProblemReport>>() {});
 
         // Update ID generators based on loaded data
-        slotIdGen.set(getMaxId(slots) + 1);
-        settingIdGen.set(getMaxId(settings) + 1);
-        ticketIdGen.set(getMaxId(tickets) + 1);
-        staffIdGen.set(getMaxId(staffMembers) + 1);
-        memberIdGen.set(getMaxId(members) + 1);
+        slotIdGen.set(slots.stream().mapToLong(s -> s.getId() != null ? s.getId() : 0).max().orElse(0) + 1);
+        settingIdGen.set(settings.stream().mapToLong(s -> s.getId() != null ? s.getId() : 0).max().orElse(0) + 1);
+        ticketIdGen.set(tickets.stream().mapToLong(t -> t.getId() != null ? t.getId() : 0).max().orElse(0) + 1);
+        staffIdGen.set(staffMembers.stream().mapToLong(s -> s.getId() != null ? s.getId() : 0).max().orElse(0) + 1);
+        memberIdGen.set(members.stream().mapToLong(m -> m.getId() != null ? m.getId() : 0).max().orElse(0) + 1);
+        reportIdGen.set(problemReports.stream().mapToLong(r -> r.getId() != null ? r.getId() : 0).max().orElse(0) + 1);
     }
 
     private <T> List<T> loadFromFile(String fileName, TypeReference<List<T>> typeReference) {
@@ -76,37 +118,37 @@ public class FileRepository {
         }
     }
 
-    private static final String LOGINS_FILE = "logins.txt";
-
     public synchronized void logLogin(String username) {
-        String logEntry = java.time.LocalDateTime.now().toString() + "," + username + "\n";
+        String logEntry = LocalDateTime.now().toString() + "," + username + "\n";
         try {
-            java.nio.file.Files.write(java.nio.file.Paths.get(LOGINS_FILE), 
+            Files.write(Paths.get(LOGINS_FILE), 
                 logEntry.getBytes(), 
-                java.nio.file.StandardOpenOption.CREATE, 
-                java.nio.file.StandardOpenOption.APPEND);
-        } catch (java.io.IOException e) {
+                StandardOpenOption.CREATE, 
+                StandardOpenOption.APPEND);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public synchronized java.util.List<String[]> getLoginsForDate(java.time.LocalDate date) {
-        java.util.List<String[]> logins = new java.util.ArrayList<>();
+    public synchronized List<String[]> getLoginsForDate(LocalDate date) {
+        List<String[]> logins = new ArrayList<>();
         try {
-            java.nio.file.Path path = java.nio.file.Paths.get(LOGINS_FILE);
-            if (java.nio.file.Files.exists(path)) {
-                java.util.List<String> lines = java.nio.file.Files.readAllLines(path);
+            Path path = Paths.get(LOGINS_FILE);
+            if (Files.exists(path)) {
+                List<String> lines = Files.readAllLines(path);
                 for (String line : lines) {
                     String[] parts = line.split(",");
                     if (parts.length >= 2) {
-                        java.time.LocalDateTime dt = java.time.LocalDateTime.parse(parts[0]);
-                        if (dt.toLocalDate().equals(date)) {
-                            logins.add(parts);
-                        }
+                        try {
+                            LocalDateTime dt = LocalDateTime.parse(parts[0]);
+                            if (dt.toLocalDate().equals(date)) {
+                                logins.add(parts);
+                            }
+                        } catch (Exception e) {}
                     }
                 }
             }
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return logins;
@@ -114,20 +156,26 @@ public class FileRepository {
 
     private <T> void saveToFile(String fileName, List<T> data) {
         try {
-            mapper.writeValue(new File(fileName), data);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), data);
         } catch (IOException e) {
             System.err.println("Error saving to " + fileName + ": " + e.getMessage());
         }
     }
 
-    private long getMaxId(List<?> list) {
-        return list.stream().mapToLong(obj -> {
-            try {
-                return (Long) obj.getClass().getMethod("getId").invoke(obj);
-            } catch (Exception e) {
-                return 0L;
-            }
-        }).max().orElse(0L);
+    // ProblemReport Operations
+    public synchronized List<ProblemReport> findAllReports() { return new ArrayList<>(problemReports); }
+    public synchronized ProblemReport saveReport(ProblemReport report) {
+        if (report.getId() == null) {
+            report.setId(reportIdGen.getAndIncrement());
+            problemReports.add(report);
+        } else {
+            problemReports.stream().filter(r -> r.getId().equals(report.getId())).findFirst().ifPresent(r -> {
+                int index = problemReports.indexOf(r);
+                problemReports.set(index, report);
+            });
+        }
+        saveToFile(REPORTS_FILE, problemReports);
+        return report;
     }
 
     // ParkingSlot Operations
@@ -152,7 +200,7 @@ public class FileRepository {
         slots.removeIf(s -> s.getId().equals(slot.getId()));
         saveToFile(SLOTS_FILE, slots);
     }
-    public synchronized long countSlots() { return slots.size(); }
+    public synchronized long countSlots() { return (long) slots.size(); }
     public synchronized List<ParkingSlot> findSlotsByOccupied(boolean isOccupied) {
         return slots.stream().filter(s -> s.isOccupied() == isOccupied).collect(Collectors.toList());
     }

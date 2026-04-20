@@ -1,49 +1,41 @@
-# Vehicle Parking Management System
+# VPMS-ParkMaster_Pro
 
-A web-based application to manage parking slots, track vehicle entry/exit, and calculate fees.
+A robust Vehicle Parking Management System (VPMS) designed with clean architecture, object-oriented principles, and reliable file-based data persistence.
+
+## Key Architecture & Design
+- **OOP Excellence:** The system utilizes **Inheritance** and **Polymorphism** (via an abstract `User` base class for `Staff` and `Member` entities) to ensure scalable, maintainable, and reusable code.
+- **Data Persistence:** Uses a secure, file-based JSON persistence layer managed via **Java I/O**, ensuring data integrity without the overhead of an external database.
+- **Layered Architecture:** Follows a modular Spring Boot structure:
+    - **Models:** Domain entities with inheritance.
+    - **Services:** Business logic and calculation.
+    - **Repositories:** Abstracted file-system operations (JSON serialization/deserialization).
+    - **Controllers:** RESTful API endpoints.
 
 ## Technology Stack
--   **Backend:** Java (Spring Boot 3.x)
--   **Frontend:** HTML5, CSS3, Vanilla JavaScript
--   **Database:** H2 In-Memory Database
+- **Backend:** Java 17+, Spring Boot
+- **Persistence:** Jackson JSON library + Java NIO (File-based)
+- **Frontend:** Vanilla JavaScript, HTML5, CSS3
 
-## Prerequisites
--   Java 17 or higher
--   Maven (or use an IDE like IntelliJ IDEA / Eclipse)
+## Features
+- **User Management:** Polymorphic management of `Staff` and `Member` accounts.
+- **Parking Operations:** Real-time slot status tracking (Occupied/Free).
+- **CRUD Operations:** Comprehensive Create, Read, Update, and Delete functionality for all entities (Tickets, Slots, Users, Reports).
+- **Logging:** Automatic login tracking and persistence via I/O streams.
+- **Fee Management:** Dynamic configuration for membership and parking fees.
 
 ## Project Structure
 ```
-parking-system/
-├── src/main/java/       # Backend Source Code
-├── src/main/resources/  # Configuration & Static Files (Frontend)
-└── pom.xml              # Maven Dependencies
+VPMS-ParkMaster_Pro/
+├── data/                # JSON-based data storage (I/O)
+├── src/main/java/com/example/parking/
+│   ├── controller/      # API Layer
+│   ├── model/           # Entities (User, Staff, Member, etc.)
+│   ├── repository/      # Java I/O Persistence Layer
+│   └── service/         # Business logic
+└── pom.xml
 ```
 
 ## How to Run
-
-1.  **Open Terminal** (PowerShell or Command Prompt).
-2.  **Navigate** to the project directory:
-    ```sh
-    cd parking-system
-    ```
-3.  **Run the Application**:
-    ```sh
-    mvn spring-boot:run
-    ```
-    *(If you don't have Maven installed globally, you can open this project in IntelliJ IDEA or Eclipse and run `ParkingApplication.java`)*
-
-4.  **Access the App**:
-    Open your browser and go to: [http://localhost:8080](http://localhost:8080)
-
-## Features
--   **Dashboard:** View all parking slots (Green = Free, Red = Occupied).
--   **Park Vehicle:** Click a green slot or use the button to park a vehicle. The system automatically assigns a slot.
--   **Exit Vehicle:** Click a red slot to process exit and calculate the fee ($10/hour).
--   **History:** View past transactions.
-
-## Database Console
-To view the raw data, access the H2 Console:
--   URL: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
--   JDBC URL: `jdbc:h2:mem:parkingdb`
--   User: `sa`
--   Password: `password`
+1. **Navigate to project folder**: `cd VPMS-ParkMaster_Pro`
+2. **Build/Run**: `mvn spring-boot:run`
+3. **Access**: Open [http://localhost:8080](http://localhost:8080) in your browser.

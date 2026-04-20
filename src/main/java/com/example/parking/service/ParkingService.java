@@ -121,25 +121,31 @@ public class ParkingService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    public void bookSlot(Long slotId, Long staffId) {
+    public void bookSlot(Long slotId, Long id, boolean isStaff) {
         ParkingSlot slot = fileRepository.findSlotById(slotId)
                 .orElseThrow(() -> new RuntimeException("Slot not found"));
 
-        if (slot.isOccupied() || slot.isBookedByStaff()) {
+        if (slot.isOccupied() || slot.isBookedByStaff() || slot.isBookedByMember()) {
             throw new RuntimeException("Slot is already taken");
         }
 
-        // Check if staff already has a booking
-        boolean hasBooking = fileRepository.findAllSlots().stream()
-                .anyMatch(s -> staffId.equals(s.getStaffId()));
-        if (hasBooking) {
-            throw new RuntimeException("Staff already has a booked slot");
+        if (isStaff) {
+            boolean hasBooking = fileRepository.findAllSlots().stream()
+                    .anyMatch(s -> id.equals(s.getStaffId()));
+            if (hasBooking) throw new RuntimeException("Staff already has a booked slot");
+            slot.setBookedByStaff(true);
+            slot.setStaffId(id);
+            syncToFile("STAFF_BOOKING (Staff: " + id + " | Slot: " + slot.getSlotNumber() + ")");
+        } else {
+            boolean hasBooking = fileRepository.findAllSlots().stream()
+                    .anyMatch(s -> id.equals(s.getMemberId()));
+            if (hasBooking) throw new RuntimeException("Member already has a booked slot");
+            slot.setBookedByMember(true);
+            slot.setMemberId(id);
+            syncToFile("MEMBER_BOOKING (Member: " + id + " | Slot: " + slot.getSlotNumber() + ")");
         }
 
-        slot.setBookedByStaff(true);
-        slot.setStaffId(staffId);
         fileRepository.saveSlot(slot);
-        syncToFile("STAFF_BOOKING (Staff: " + staffId + " | Slot: " + slot.getSlotNumber() + ")");
     }
 
     public void unbookSlot(Long slotId, Long staffId) {

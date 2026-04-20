@@ -1,1 +1,0 @@
-[{"id":6,"name":"shihaz","department":"","username":"shaz4q","password":"shaz#1","joinDate":[2026,4,3],"active":true,"accessibleTabs":["dashboard","slots","history","settings"]}]

@@ -2,13 +2,20 @@ package com.example.parking.controller;
 
 import com.example.parking.model.ParkingSlot;
 import com.example.parking.model.Ticket;
+import com.example.parking.model.Staff;
+import com.example.parking.model.ProblemReport;
 import com.example.parking.service.ParkingService;
+import com.example.parking.service.StaffService;
+import com.example.parking.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -18,13 +25,31 @@ public class ParkingController {
     @Autowired
     private ParkingService parkingService;
 
+    @Autowired
+    private StaffService staffService;
+
+    @Autowired
+    private FileRepository fileRepository;
+
+    // --- Reports ---
+    @GetMapping("/reports")
+    public List<ProblemReport> getReports() {
+        return fileRepository.findAllReports();
+    }
+
+    @PostMapping("/reports")
+    public ProblemReport addReport(@RequestBody ProblemReport report) {
+        report.setReportTime(LocalDateTime.now());
+        return fileRepository.saveReport(report);
+    }
+
     // --- Authentication ---
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         String username = credentials.get("username");
         String password = credentials.get("password");
         
-        // Use stored admin password
+        // 1. Check for Admin
         if ("admin".equals(username) && parkingService.getAdminPassword().equals(password)) {
             return ResponseEntity.ok(Map.of(
                 "token", "admin-sim-token",
@@ -33,6 +58,19 @@ public class ParkingController {
                 "name", "Administrator"
             ));
         }
+
+        // 2. Check for Staff
+        Optional<Staff> staff = staffService.login(username, password);
+        if (staff.isPresent()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", "staff-sim-token-" + staff.get().getId());
+            response.put("role", "STAFF");
+            response.put("id", staff.get().getId());
+            response.put("name", staff.get().getName());
+            response.put("accessibleTabs", staff.get().getAccessibleTabs());
+            return ResponseEntity.ok(response);
+        }
+
         return ResponseEntity.status(401).body("Invalid credentials");
     }
 
@@ -135,11 +173,12 @@ public class ParkingController {
         }
     }
 
-    // --- Staff Slot Booking ---
-    @PostMapping("/staff/book/{slotId}/{staffId}")
-    public ResponseEntity<?> bookSlot(@PathVariable Long slotId, @PathVariable Long staffId) {
+    // --- Staff/Member Slot Booking ---
+    @PostMapping("/book/{slotId}/{id}/{type}")
+    public ResponseEntity<?> bookSlot(@PathVariable Long slotId, @PathVariable Long id, @PathVariable String type) {
         try {
-            parkingService.bookSlot(slotId, staffId);
+            boolean isStaff = "STAFF".equalsIgnoreCase(type);
+            parkingService.bookSlot(slotId, id, isStaff);
             return ResponseEntity.ok(Map.of("message", "Slot booked successfully"));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

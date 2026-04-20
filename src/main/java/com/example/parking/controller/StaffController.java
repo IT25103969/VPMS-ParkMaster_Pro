@@ -19,25 +19,6 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
-    // Login for Staff
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
-        String username = credentials.get("username");
-        String password = credentials.get("password");
-        
-        Optional<Staff> staff = staffService.login(username, password);
-        if (staff.isPresent()) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", "staff-sim-token-" + staff.get().getId());
-            response.put("role", "STAFF");
-            response.put("id", staff.get().getId());
-            response.put("name", staff.get().getName());
-            response.put("accessibleTabs", staff.get().getAccessibleTabs());
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.status(401).body("Invalid staff credentials");
-    }
-
     // Change Password
     @PostMapping("/{id}/change-password")
     public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody Map<String, String> request) {

@@ -1,0 +1,8 @@
+[ {
+  "id" : 1,
+  "problemType" : "Slot Issue",
+  "securityLevel" : "LOW",
+  "spot" : "A23",
+  "description" : "parked car crash",
+  "reportTime" : [ 2026, 4, 19, 13, 58, 5, 178866200 ]
+} ]

@@ -1,0 +1,301 @@
+[ {
+  "id" : 1,
+  "slotNumber" : "A1",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 2,
+  "slotNumber" : "A2",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 3,
+  "slotNumber" : "A3",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 4,
+  "slotNumber" : "A4",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 5,
+  "slotNumber" : "A5",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 6,
+  "slotNumber" : "A6",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 7,
+  "slotNumber" : "A7",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 8,
+  "slotNumber" : "A8",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 9,
+  "slotNumber" : "A9",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 10,
+  "slotNumber" : "A10",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 11,
+  "slotNumber" : "A11",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 12,
+  "slotNumber" : "A12",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 13,
+  "slotNumber" : "A13",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 14,
+  "slotNumber" : "A14",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 15,
+  "slotNumber" : "A15",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 16,
+  "slotNumber" : "A16",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 17,
+  "slotNumber" : "A17",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 18,
+  "slotNumber" : "A18",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 19,
+  "slotNumber" : "A19",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 20,
+  "slotNumber" : "A20",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 21,
+  "slotNumber" : "A21",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 22,
+  "slotNumber" : "A22",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 23,
+  "slotNumber" : "A23",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 24,
+  "slotNumber" : "A24",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 25,
+  "slotNumber" : "A25",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 26,
+  "slotNumber" : "A26",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 27,
+  "slotNumber" : "A27",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 28,
+  "slotNumber" : "A28",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 29,
+  "slotNumber" : "A29",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 30,
+  "slotNumber" : "A30",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 31,
+  "slotNumber" : "A31",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 32,
+  "slotNumber" : "A32",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 33,
+  "slotNumber" : "A33",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 34,
+  "slotNumber" : "A34",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 35,
+  "slotNumber" : "A35",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 36,
+  "slotNumber" : "A36",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 37,
+  "slotNumber" : "A37",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 38,
+  "slotNumber" : "A38",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 39,
+  "slotNumber" : "A39",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 40,
+  "slotNumber" : "A40",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 41,
+  "slotNumber" : "A41",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 42,
+  "slotNumber" : "A42",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 43,
+  "slotNumber" : "A43",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 44,
+  "slotNumber" : "A44",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 45,
+  "slotNumber" : "A45",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 46,
+  "slotNumber" : "A46",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 47,
+  "slotNumber" : "A47",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 48,
+  "slotNumber" : "A48",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 49,
+  "slotNumber" : "A49",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+}, {
+  "id" : 50,
+  "slotNumber" : "A50",
+  "staffId" : null,
+  "occupied" : false,
+  "bookedByStaff" : false
+} ]

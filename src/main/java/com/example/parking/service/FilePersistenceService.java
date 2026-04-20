@@ -13,37 +13,34 @@ import java.util.List;
 @Service
 public class FilePersistenceService {
 
-    private static final String LOG_FILE = "parking_data_log.txt";
+    private static final String LOG_FILE = "data/parking_data_log.txt";
 
     public synchronized void logStateChange(String operation, List<ParkingSlot> slots, List<Ticket> activeTickets) {
         try (FileWriter fw = new FileWriter(LOG_FILE, true);
              PrintWriter pw = new PrintWriter(fw)) {
 
+            long freeSlots = slots.stream().filter(s -> !s.isOccupied() && !s.isBookedByStaff()).count();
+            long reservedSlots = slots.stream().filter(s -> s.isBookedByStaff()).count();
+
             pw.println("-------------------------------------------------------------------------------");
-            pw.println("Timestamp: " + LocalDateTime.now());
-            pw.println("Operation: " + operation);
-            pw.println("Active Sessions: " + activeTickets.size());
-            pw.println("Parking Map Status:");
-
-            for (ParkingSlot slot : slots) {
-                pw.println(String.format("Slot %s: %s | Reserved: %s", 
-                    slot.getSlotNumber(), 
-                    slot.isOccupied() ? "Occupied" : "Free",
-                    slot.isBookedByStaff() ? "Staff ID " + slot.getStaffId() : "No"));
-            }
-
-            pw.println("Active Tickets:");
-            for (Ticket ticket : activeTickets) {
-                pw.println(String.format(" - Vehicle: %s | Slot: %s | Entry: %s",
-                    ticket.getVehicleNumber(),
-                    ticket.getSlot().getSlotNumber(),
-                    ticket.getEntryTime()));
+            pw.println("Timestamp   : " + LocalDateTime.now());
+            pw.println("Operation   : " + operation);
+            pw.println("Status      : " + activeTickets.size() + " Active | " + freeSlots + " Free | " + reservedSlots + " Reserved");
+            
+            if (!activeTickets.isEmpty()) {
+                pw.println("Active Vehicles:");
+                for (Ticket ticket : activeTickets) {
+                    pw.println(String.format(" > %s (Slot %s) - Entry: %s",
+                        ticket.getVehicleNumber(),
+                        ticket.getSlot().getSlotNumber(),
+                        ticket.getEntryTime()));
+                }
             }
             pw.println("-------------------------------------------------------------------------------");
             pw.flush();
 
         } catch (IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
+            System.err.println("Error writing to log file: " + e.getMessage());
         }
     }
 }
