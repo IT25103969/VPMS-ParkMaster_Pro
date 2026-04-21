@@ -1,12 +1,11 @@
 [ {
-  "type" : "staff",
-  "id" : 6,
-  "name" : "shihaz",
-  "email" : "shihaz@example.com",
-  "department" : "",
+  "id" : 7,
+  "name" : "shihaz shaheem",
+  "email" : null,
+  "department" : "parking",
   "username" : "shaz4q",
   "password" : "shaz#1",
-  "joinDate" : [ 2026, 4, 3 ],
+  "joinDate" : "2026-04-20",
   "active" : true,
-  "accessibleTabs" : [ "dashboard", "slots", "history", "settings" ]
+  "accessibleTabs" : [ "dashboard", "slots" ]
 } ]

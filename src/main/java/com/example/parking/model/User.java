@@ -1,14 +1,9 @@
 package com.example.parking.model;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = Member.class, name = "member"),
-    @JsonSubTypes.Type(value = Staff.class, name = "staff")
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class User implements Serializable {
     private static final long serialVersionUID = 1L;
 

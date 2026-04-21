@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,7 +125,7 @@
                     sessionStorage.setItem('accessibleTabs', JSON.stringify(tabs));
                     
                     Swal.fire({ ...swalConfig, icon: 'success', title: 'Success', text: 'Welcome back!', timer: 1000, showConfirmButton: false }).then(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = './'; // Redirect to the root (index.jsp)
                     });
                 } else {
                     Swal.fire({ ...swalConfig, icon: 'error', title: 'Login Failed', text: 'Invalid username or password' });

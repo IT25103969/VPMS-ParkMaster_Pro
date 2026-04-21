@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         // Critical Auth Check in Head to prevent flashing
-        if (!sessionStorage.getItem('adminToken')) {
-            window.location.href = 'login.html';
+        if (!sessionStorage.getItem('token') || sessionStorage.getItem('role') !== 'ADMIN') {
+            window.location.href = 'login';
         }
     </script>
     <style>
@@ -286,8 +287,8 @@
         switchTab('dashboard');
 
         document.getElementById('logout-btn').onclick = () => {
-            sessionStorage.removeItem('adminToken');
-            window.location.href = 'login.html';
+            sessionStorage.clear();
+            window.location.href = 'login';
         };
 
         async function fetchSlots() {
@@ -299,18 +300,18 @@
             slots.forEach(slot => {
                 const div = document.createElement('div');
                 const isOccupied = slot.occupied !== undefined ? slot.occupied : slot.isOccupied;
-                const isBooked = slot.bookedByStaff;
+                const isBooked = slot.bookedByStaff || slot.bookedByMember;
                 
-                div.className = `p-6 rounded border transition-all hover:bg-white/5 text-center cursor-pointer ${isOccupied ? 'slot-occupied' : (isBooked ? 'bg-blue-500/10 border-blue-500/20' : 'slot-free')}`;
+                div.className = `p-6 rounded border transition-all hover:bg-white/5 text-center cursor-pointer \${isOccupied ? 'slot-occupied' : (isBooked ? 'bg-blue-500/10 border-blue-500/20' : 'slot-free')}`;
                 
                 let statusText = isOccupied ? 'Occupied' : (isBooked ? 'Reserved' : 'Free');
                 let statusClass = isOccupied ? 'text-red-400' : (isBooked ? 'text-blue-400' : 'text-green-500');
 
                 div.innerHTML = `
                     <div class="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-1">Slot</div>
-                    <div class="text-lg font-bold text-white">${slot.slotNumber}</div>
-                    <div class="mt-2 text-[9px] font-bold uppercase tracking-wider ${statusClass}">
-                        ${statusText}
+                    <div class="text-lg font-bold text-white">\${slot.slotNumber}</div>
+                    <div class="mt-2 text-[9px] font-bold uppercase tracking-wider \${statusClass}">
+                        \${statusText}
                     </div>
                 `;
                 
@@ -321,7 +322,7 @@
                         document.getElementById('exit-modal').classList.remove('hidden');
                     } else if (isBooked) {
                         Swal.fire({
-                            title: `Reserved Slot: ${slot.slotNumber}`,
+                            title: `Reserved Slot: \${slot.slotNumber}`,
                             text: 'This slot is reserved. As admin, you can:',
                             icon: 'info',
                             showCancelButton: true,
@@ -333,16 +334,16 @@
                             denyButtonColor: '#3b82f6',
                             background: '#1e293b',
                             color: '#fff'
-                        }).then((result) => {
+                            }).then((result) => {
                             if (result.isConfirmed) {
-                                fetch(`${API_BASE}/staff/unbook/${slot.id}/0`, { method: 'POST' }).then(r => {
+                                const unbookPath = slot.bookedByStaff ? `/staff/unbook/\${slot.id}/0` : `/member/unbook/\${slot.id}/0`;
+                                fetch(`\${API_BASE}\${unbookPath}`, { method: 'POST' }).then(r => {
                                     if (r.ok) { fetchSlots(); Swal.fire('Released', '', 'success'); }
                                 });
                             } else if (result.isDenied) {
                                 showEntryModal(slot.id, slot.slotNumber);
                             }
-                        });
-                    } else {
+                            });                    } else {
                         showEntryModal(slot.id, slot.slotNumber);
                     }
                 };
@@ -352,7 +353,7 @@
 
         function showEntryModal(slotId = null, slotNumber = null) {
             selectedSlotId = slotId;
-            const title = slotNumber ? `Register Entry - Slot ${slotNumber}` : 'Vehicle Registration';
+            const title = slotNumber ? `Register Entry - Slot \${slotNumber}` : 'Vehicle Registration';
             document.querySelector('#entry-modal h3').textContent = title;
             document.getElementById('entry-modal').classList.remove('hidden');
             document.getElementById('vehicle-number').focus();
@@ -436,10 +437,10 @@
         };
 
         document.getElementById('confirm-exit-btn').onclick = async () => {
-            const res = await fetch(`/api/tickets/exit/${selectedSlotId}`, { method: 'POST' });
+            const res = await fetch(`/api/tickets/exit/\${selectedSlotId}`, { method: 'POST' });
             if (res.ok) {
                 const t = await res.json();
-                alert(`Exit Finalized. Amount: $${t.amount.toFixed(2)}`);
+                alert(`Exit Finalized. Amount: $\${t.amount.toFixed(2)}`);
                 hideModals();
                 fetchSlots();
             }
@@ -448,8 +449,8 @@
         async function fetchStats() {
             const res = await fetch('/api/admin/revenue/stats');
             const data = await res.json();
-            document.getElementById('stat-revenue-today').textContent = `$${data.today.toFixed(2)}`;
-            document.getElementById('stat-revenue-total').textContent = `$${data.total.toFixed(2)}`;
+            document.getElementById('stat-revenue-today').textContent = `$\${data.today.toFixed(2)}`;
+            document.getElementById('stat-revenue-total').textContent = `$\${data.total.toFixed(2)}`;
             document.getElementById('stat-active-slots').textContent = data.activeCount;
         }
 
@@ -462,11 +463,11 @@
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-white/[0.02] transition-all";
                 tr.innerHTML = `
-                    <td class="p-4 text-slate-500 font-mono text-[10px]">REF-${t.id}</td>
-                    <td class="p-4 font-bold uppercase tracking-wider">${t.vehicleNumber}</td>
-                    <td class="p-4"><span class="px-2 py-1 bg-white/5 rounded text-[10px] font-bold">${t.slot ? t.slot.slotNumber : '---'}</span></td>
-                    <td class="p-4 text-slate-400 text-xs">${t.exitTime ? calculateDuration(t.entryTime, t.exitTime) : 'Active'}</td>
-                    <td class="p-4 font-bold text-white text-right">${t.amount ? '$' + t.amount.toFixed(2) : '---'}</td>
+                    <td class="p-4 text-slate-500 font-mono text-[10px]">REF-\${t.id}</td>
+                    <td class="p-4 font-bold uppercase tracking-wider">\${t.vehicleNumber}</td>
+                    <td class="p-4"><span class="px-2 py-1 bg-white/5 rounded text-[10px] font-bold">\${t.slot ? t.slot.slotNumber : '---'}</span></td>
+                    <td class="p-4 text-slate-400 text-xs">\${t.exitTime ? calculateDuration(t.entryTime, t.exitTime) : 'Active'}</td>
+                    <td class="p-4 font-bold text-white text-right">\${t.amount ? '$' + t.amount.toFixed(2) : '---'}</td>
                 `;
                 body.appendChild(tr);
             });
@@ -476,7 +477,7 @@
             const diff = new Date(end) - new Date(start);
             const hrs = Math.floor(diff / 3600000);
             const mins = Math.round((diff % 3600000) / 60000);
-            return `${hrs}h ${mins}m`;
+            return `\${hrs}h \${mins}m`;
         }
 
         async function fetchRate() {

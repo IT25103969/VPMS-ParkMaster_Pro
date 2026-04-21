@@ -9,9 +9,11 @@ import com.example.parking.model.ProblemReport;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.PostConstruct;
+// ... (omitting some imports for brevity in explanation, but providing exact code below)
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,6 +60,7 @@ public class FileRepository {
     public FileRepository() {
         this.mapper = new ObjectMapper();
         this.mapper.registerModule(new JavaTimeModule());
+        this.mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     @PostConstruct
@@ -253,7 +256,10 @@ public class FileRepository {
     // Staff Operations
     public synchronized List<Staff> findAllStaff() { return new ArrayList<>(staffMembers); }
     public synchronized Optional<Staff> findStaffByUsername(String username) {
-        return staffMembers.stream().filter(m -> m.getUsername().equals(username)).findFirst();
+        if (username == null) return Optional.empty();
+        return staffMembers.stream()
+                .filter(m -> username.equals(m.getUsername()))
+                .findFirst();
     }
     public synchronized Optional<Staff> findStaffById(Long id) {
         return staffMembers.stream().filter(m -> m.getId().equals(id)).findFirst();

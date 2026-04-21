@@ -117,7 +117,7 @@ public class ParkingService {
 
     public List<ParkingSlot> getAvailableSlotsForGeneral() {
         return fileRepository.findAllSlots().stream()
-                .filter(s -> !s.isOccupied() && !s.isBookedByStaff())
+                .filter(s -> !s.isOccupied() && !s.isBookedByStaff() && !s.isBookedByMember())
                 .collect(java.util.stream.Collectors.toList());
     }
 
@@ -131,14 +131,14 @@ public class ParkingService {
 
         if (isStaff) {
             boolean hasBooking = fileRepository.findAllSlots().stream()
-                    .anyMatch(s -> id.equals(s.getStaffId()));
+                    .anyMatch(s -> s.isBookedByStaff() && id.equals(s.getStaffId()));
             if (hasBooking) throw new RuntimeException("Staff already has a booked slot");
             slot.setBookedByStaff(true);
             slot.setStaffId(id);
             syncToFile("STAFF_BOOKING (Staff: " + id + " | Slot: " + slot.getSlotNumber() + ")");
         } else {
             boolean hasBooking = fileRepository.findAllSlots().stream()
-                    .anyMatch(s -> id.equals(s.getMemberId()));
+                    .anyMatch(s -> s.isBookedByMember() && id.equals(s.getMemberId()));
             if (hasBooking) throw new RuntimeException("Member already has a booked slot");
             slot.setBookedByMember(true);
             slot.setMemberId(id);
@@ -161,6 +161,21 @@ public class ParkingService {
         slot.setStaffId(null);
         fileRepository.saveSlot(slot);
         syncToFile("STAFF_UNBOOKING (" + (staffId == 0 ? "ADMIN_OVERRIDE" : "Staff: " + staffId) + " | Slot: " + slot.getSlotNumber() + ")");
+    }
+
+    public void unbookMemberSlot(Long slotId, Long memberId) {
+        ParkingSlot slot = fileRepository.findSlotById(slotId)
+                .orElseThrow(() -> new RuntimeException("Slot not found"));
+
+        // If memberId is 0, it's an admin override
+        if (memberId != 0 && !memberId.equals(slot.getMemberId())) {
+            throw new RuntimeException("This slot is not booked by you");
+        }
+
+        slot.setBookedByMember(false);
+        slot.setMemberId(null);
+        fileRepository.saveSlot(slot);
+        syncToFile("MEMBER_UNBOOKING (" + (memberId == 0 ? "ADMIN_OVERRIDE" : "Member: " + memberId) + " | Slot: " + slot.getSlotNumber() + ")");
     }
 
     public Ticket parkVehicle(String vehicleNumber, String vehicleType, Long preferredSlotId) {

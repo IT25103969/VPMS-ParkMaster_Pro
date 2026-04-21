@@ -194,4 +194,14 @@ public class ParkingController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/member/unbook/{slotId}/{memberId}")
+    public ResponseEntity<?> unbookMemberSlot(@PathVariable Long slotId, @PathVariable Long memberId) {
+        try {
+            parkingService.unbookMemberSlot(slotId, memberId);
+            return ResponseEntity.ok(Map.of("message", "Slot unbooked successfully"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

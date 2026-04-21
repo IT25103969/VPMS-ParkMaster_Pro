@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@
         const role = sessionStorage.getItem('role');
         const userId = sessionStorage.getItem('userId');
         const userName = sessionStorage.getItem('userName');
-        if (!role) window.location.href = 'login.html';
+        if (!role) window.location.href = 'login';
 
         tailwind.config = {
             darkMode: 'class',
@@ -547,7 +548,7 @@
             }
 
             try {
-                const res = await fetch(`${API_BASE}/reports`, {
+                const res = await fetch(`\${API_BASE}/reports`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -571,7 +572,7 @@
 
         async function loadReports() {
             try {
-                const res = await fetch(`${API_BASE}/reports`);
+                const res = await fetch(`\${API_BASE}/reports`);
                 const reports = await res.json();
                 renderReports(reports);
             } catch (err) { console.error(err); }
@@ -589,13 +590,13 @@
                 return `
                     <div class="p-4 rounded-2xl bg-white dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 shadow-sm">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-sm font-bold text-gray-800 dark:text-white">${r.problemType}</span>
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${levelColor}">${r.securityLevel}</span>
+                            <span class="text-sm font-bold text-gray-800 dark:text-white">\${r.problemType}</span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${levelColor}">\${r.securityLevel}</span>
                         </div>
-                        <p class="text-xs text-gray-500 dark:text-slate-400 mb-2 font-medium">Spot: ${r.spot}</p>
-                        <p class="text-sm text-gray-600 dark:text-slate-300 mb-3 leading-relaxed">${r.description}</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-400 mb-2 font-medium">Spot: \${r.spot}</p>
+                        <p class="text-sm text-gray-600 dark:text-slate-300 mb-3 leading-relaxed">\${r.description}</p>
                         <div class="text-[10px] text-gray-400 dark:text-slate-500 font-mono">
-                            ${new Date(r.reportTime).toLocaleString()}
+                            \${new Date(r.reportTime).toLocaleString()}
                         </div>
                     </div>
                 `;
@@ -605,9 +606,9 @@
         async function loadData() {
             try {
                 const [slotsRes, statsRes, rateRes, historyRes, countRes] = await Promise.all([
-                    fetch(`${API_BASE}/slots`), fetch(`${API_BASE}/admin/revenue/stats`),
-                    fetch(`${API_BASE}/admin/rate`), fetch(`${API_BASE}/tickets/history`),
-                    fetch(`${API_BASE}/admin/slots/count`)
+                    fetch(`\${API_BASE}/slots`), fetch(`\${API_BASE}/admin/revenue/stats`),
+                    fetch(`\${API_BASE}/admin/rate`), fetch(`\${API_BASE}/tickets/history`),
+                    fetch(`\${API_BASE}/admin/slots/count`)
                 ]);
 
                 const slots = await slotsRes.json();
@@ -640,8 +641,8 @@
 
         async function loadMonthlyMemberData() {
             const [feeRes, membersRes] = await Promise.all([
-                fetch(`${API_BASE}/admin/members/fee`),
-                fetch(`${API_BASE}/admin/members`)
+                fetch(`\${API_BASE}/admin/members/fee`),
+                fetch(`\${API_BASE}/admin/members`)
             ]);
             const feeData = await feeRes.json();
             const members = await membersRes.json();
@@ -654,11 +655,11 @@
             const body = document.getElementById('monthly-members-body');
             body.innerHTML = members.map(m => `
                 <tr class="hover:bg-white dark:hover:bg-slate-800/50 transition-colors">
-                    <td class="py-4 font-bold text-gray-700 dark:text-slate-200">${m.name}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">${m.email}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.joinDate}</td>
-                    <td class="py-4"><span class="px-2 py-1 rounded-full text-[10px] font-bold ${m.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${m.active ? 'ACTIVE' : 'EXPIRED'}</span></td>
-                    <td class="py-4"><button onclick="deleteMonthlyMember(${m.id})" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
+                    <td class="py-4 font-bold text-gray-700 dark:text-slate-200">\${m.name}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">\${m.email}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">\${m.joinDate}</td>
+                    <td class="py-4"><span class="px-2 py-1 rounded-full text-[10px] font-bold \${m.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">\${m.active ? 'ACTIVE' : 'EXPIRED'}</span></td>
+                    <td class="py-4"><button onclick="deleteMonthlyMember(\${m.id})" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
                 </tr>
             `).join('');
             lucide.createIcons();
@@ -673,21 +674,21 @@
                 color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
             });
             if (v && v.name && v.email) {
-                const res = await fetch(`${API_BASE}/admin/members`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
+                const res = await fetch(`\${API_BASE}/admin/members`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
                 if (res.ok) { Swal.fire('Success', 'Member registered!', 'success'); loadMonthlyMemberData(); }
             }
         }
 
         async function deleteMonthlyMember(id) {
             if ((await Swal.fire({ title: 'Remove Member?', icon: 'warning', showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' })).isConfirmed) {
-                await fetch(`${API_BASE}/admin/members/${id}`, { method: 'DELETE' });
+                await fetch(`\${API_BASE}/admin/members/\${id}`, { method: 'DELETE' });
                 loadMonthlyMemberData();
             }
         }
 
         async function updateMemberFee() {
             const f = document.getElementById('input-member-fee').value;
-            const res = await fetch(`${API_BASE}/admin/members/fee`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fee: parseFloat(f) }) });
+            const res = await fetch(`\${API_BASE}/admin/members/fee`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fee: parseFloat(f) }) });
             if (res.ok) Swal.fire({ title: 'Updated', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
         }
 
@@ -747,9 +748,9 @@
 
         function renderStats(slots, stats, rate) {
             document.getElementById('stat-total-slots').textContent = slots.length;
-            document.getElementById('stat-occupied').innerHTML = `${stats.activeCount} <span class="text-sm font-normal text-gray-400 dark:text-slate-500">/ ${slots.length}</span>`;
-            document.getElementById('stat-revenue').textContent = `$${stats.today.toFixed(2)}`;
-            document.getElementById('stat-rate').textContent = `$${rate.rate.toFixed(2)}`;
+            document.getElementById('stat-occupied').innerHTML = `\${stats.activeCount} <span class="text-sm font-normal text-gray-400 dark:text-slate-500">/ \${slots.length}</span>`;
+            document.getElementById('stat-revenue').textContent = `$\${stats.today.toFixed(2)}`;
+            document.getElementById('stat-rate').textContent = `$\${rate.rate.toFixed(2)}`;
         }
 
         function renderGrid(slots, elementId, isDetailed = false) {
@@ -759,10 +760,10 @@
                 const statusColor = slot.occupied ? 'bg-red-500' : (slot.bookedByStaff ? (isMine ? 'bg-yellow-600 ring-4 ring-yellow-300' : 'bg-yellow-500') : 'bg-green-500');
                 
                 return `
-                <div onclick="handleSlotAction(${slot.id}, '${slot.slotNumber}', ${slot.occupied}, ${slot.bookedByStaff}, ${slot.staffId})" 
-                     class="parking-slot ${isDetailed ? 'p-6' : 'h-12'} ${statusColor} rounded-2xl flex flex-col items-center justify-center cursor-pointer shadow-sm text-white">
-                    ${slot.occupied ? '<i data-lucide="car" class="w-5 h-5"></i>' : (slot.bookedByStaff ? (isMine ? '<i data-lucide="check-circle" class="w-5 h-5"></i>' : '<i data-lucide="bookmark" class="w-4 h-4"></i>') : `<span class="text-sm font-bold">${slot.slotNumber}</span>`)}
-                    ${isDetailed ? `<span class="text-[10px] mt-2 opacity-80 uppercase font-bold">${slot.occupied ? 'Occupied' : (slot.bookedByStaff ? (isMine ? 'Your Slot' : 'Reserved') : 'Free')}</span>` : ''}
+                <div onclick="handleSlotAction(\${slot.id}, '\${slot.slotNumber}', \${slot.occupied}, \${slot.bookedByStaff}, \${slot.staffId})" 
+                     class="parking-slot \${isDetailed ? 'p-6' : 'h-12'} \${statusColor} rounded-2xl flex flex-col items-center justify-center cursor-pointer shadow-sm text-white">
+                    \${slot.occupied ? '<i data-lucide="car" class="w-5 h-5"></i>' : (slot.bookedByStaff ? (isMine ? '<i data-lucide="check-circle" class="w-5 h-5"></i>' : '<i data-lucide="bookmark" class="w-4 h-4"></i>') : `<span class="text-sm font-bold">\${slot.slotNumber}</span>`)}
+                    \${isDetailed ? `<span class="text-[10px] mt-2 opacity-80 uppercase font-bold">\${slot.occupied ? 'Occupied' : (slot.bookedByStaff ? (isMine ? 'Your Slot' : 'Reserved') : 'Free')}</span>` : ''}
                 </div>
             `}).join('');
         }
@@ -770,7 +771,7 @@
         function renderFeed(history) {
             const feed = document.getElementById('entry-feed');
             const active = history.filter(t => t.status === 'ACTIVE').slice(-5).reverse();
-            feed.innerHTML = active.map(t => `<div class="border-l-2 border-green-500 pl-4"><b>${t.vehicleNumber}</b><br><span class="text-xs text-gray-500 dark:text-slate-400">${new Date(t.entryTime).toLocaleTimeString()}</span></div>`).join('') || 'No active sessions';
+            feed.innerHTML = active.map(t => `<div class="border-l-2 border-green-500 pl-4"><b>\${t.vehicleNumber}</b><br><span class="text-xs text-gray-500 dark:text-slate-400">\${new Date(t.entryTime).toLocaleTimeString()}</span></div>`).join('') || 'No active sessions';
         }
 
         function renderHistory(history) {
@@ -779,34 +780,34 @@
                 <tr class="hover:bg-white dark:hover:bg-slate-800/50 text-sm">
                     <td class="py-4 font-bold text-gray-700 dark:text-slate-200">
                         <div class="flex flex-col">
-                            <span>${t.vehicleNumber}</span>
-                            <span class="text-[10px] text-blue-500 font-bold uppercase">${t.vehicleType || 'Unknown'}</span>
+                            <span>\${t.vehicleNumber}</span>
+                            <span class="text-[10px] text-blue-500 font-bold uppercase">\${t.vehicleType || 'Unknown'}</span>
                         </div>
                     </td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400">${new Date(t.entryTime).toLocaleString()}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400">${t.exitTime ? new Date(t.exitTime).toLocaleString() : '-'}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">${t.slot ? t.slot.slotNumber : '-'}</td>
-                    <td class="py-4 font-bold text-gray-800 dark:text-white">${t.amount ? '$' + t.amount.toFixed(2) : '-'}</td>
-                    <td class="py-4"><span class="px-2 py-1 rounded-full text-xs font-bold ${t.status === 'COMPLETED' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}">${t.status}</span></td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">\${new Date(t.entryTime).toLocaleString()}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">\${t.exitTime ? new Date(t.exitTime).toLocaleString() : '-'}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">\${t.slot ? t.slot.slotNumber : '-'}</td>
+                    <td class="py-4 font-bold text-gray-800 dark:text-white">\${t.amount ? '$' + t.amount.toFixed(2) : '-'}</td>
+                    <td class="py-4"><span class="px-2 py-1 rounded-full text-xs font-bold \${t.status === 'COMPLETED' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}">\${t.status}</span></td>
                 </tr>
             `).join('');
         }
 
         async function renderMembers() {
-            const res = await fetch(`${API_BASE}/staff`);
+            const res = await fetch(`\${API_BASE}/staff`);
             const members = await res.json();
             const body = document.getElementById('membership-body');
             body.innerHTML = members.map(m => `
                 <tr class="hover:bg-white dark:hover:bg-slate-800/50 transition-colors">
-                    <td class="py-4 font-bold text-gray-700 dark:text-slate-200">${m.name}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400">${m.department}</td>
-                    <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">${m.username}</td>
+                    <td class="py-4 font-bold text-gray-700 dark:text-slate-200">\${m.name}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400">\${m.department}</td>
+                    <td class="py-4 text-gray-500 dark:text-slate-400 font-mono">\${m.username}</td>
                     <td class="py-4 text-gray-500 dark:text-slate-400">
                         <div class="flex flex-wrap gap-1">
-                            ${(m.accessibleTabs || []).map(t => `<span class="px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded text-[10px] uppercase font-bold border border-blue-200 dark:border-blue-800">${t}</span>`).join('') || '<span class="text-gray-400">None</span>'}
+                            \${(m.accessibleTabs || []).map(t => `<span class="px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded text-[10px] uppercase font-bold border border-blue-200 dark:border-blue-800">\${t}</span>`).join('') || '<span class="text-gray-400">None</span>'}
                         </div>
                     </td>
-                    <td class="py-4"><button onclick="deleteMember(${m.id})" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
+                    <td class="py-4"><button onclick="deleteMember(\${m.id})" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
                 </tr>
             `).join('');
             lucide.createIcons();
@@ -856,7 +857,7 @@
                 color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
             });
             if (v) {
-                const res = await fetch(`${API_BASE}/staff`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
+                const res = await fetch(`\${API_BASE}/staff`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
                 if (res.ok) { Swal.fire('Success', '', 'success'); renderMembers(); }
                 else Swal.fire('Error', await res.text(), 'error');
             }
@@ -864,7 +865,7 @@
 
         async function deleteMember(id) {
             if ((await Swal.fire({ title: 'Delete?', icon: 'warning', showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' })).isConfirmed) {
-                await fetch(`${API_BASE}/staff/${id}`, { method: 'DELETE' });
+                await fetch(`\${API_BASE}/staff/\${id}`, { method: 'DELETE' });
                 renderMembers();
             }
         }
@@ -874,7 +875,7 @@
                 if (occupied) handleExit(id, number);
                 else if (booked) {
                     Swal.fire({
-                        title: `Reserved Slot: ${number}`,
+                        title: `Reserved Slot: \${number}`,
                         text: 'This slot is reserved by a staff member.',
                         icon: 'info',
                         showCancelButton: true,
@@ -888,12 +889,12 @@
                         color: document.documentElement.classList.contains('dark') ? '#fff' : '#000'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            fetch(`${API_BASE}/staff/unbook/${id}/0`, { method: 'POST' }).then(res => { if (res.ok) { loadData(); Swal.fire('Released', '', 'success'); } });
+                            fetch(`\${API_BASE}/staff/unbook/\${id}/0`, { method: 'POST' }).then(res => { if (res.ok) { loadData(); Swal.fire('Released', '', 'success'); } });
                         } else if (result.isDenied) handleEntrySpecific(id, number);
                     });
                 } else {
                     Swal.fire({
-                        title: `Slot ${number}`,
+                        title: `Slot \${number}`,
                         text: 'Choose an action:',
                         icon: 'question',
                         showCancelButton: true,
@@ -915,7 +916,7 @@
                 else if (booked) {
                     if (staffId == userId) {
                         Swal.fire({
-                            title: `Your Reserved Slot: ${number}`,
+                            title: `Your Reserved Slot: \${number}`,
                             text: 'What would you like to do?',
                             icon: 'question',
                             showCancelButton: true,
@@ -934,7 +935,7 @@
                     } else Swal.fire({ title: 'Reserved', text: 'Slot reserved by another staff.', icon: 'info', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
                 } else {
                     Swal.fire({
-                        title: `Slot ${number}`,
+                        title: `Slot \${number}`,
                         text: 'Choose an action:',
                         icon: 'question',
                         showCancelButton: true,
@@ -990,15 +991,15 @@
                 }
 
                 const [staffRes, membersRes] = await Promise.all([
-                    fetch(`${API_BASE}/staff`),
-                    fetch(`${API_BASE}/admin/members`)
+                    fetch(`\${API_BASE}/staff`),
+                    fetch(`\${API_BASE}/admin/members`)
                 ]);
                 const staffList = await staffRes.json();
                 const membersList = await membersRes.json();
                 
                 const list = type === 'STAFF' ? staffList : membersList;
                 if (list.length === 0) {
-                    Swal.fire({ title: 'No Users', text: `No ${type.toLowerCase()}s found.`, icon: 'info' });
+                    Swal.fire({ title: 'No Users', text: `No \${type.toLowerCase()}s found.`, icon: 'info' });
                     return;
                 }
 
@@ -1006,14 +1007,14 @@
                 list.forEach(u => options[u.id] = u.name);
 
                 const { value: id } = await Swal.fire({
-                    title: `Reserve for ${type}`,
+                    title: `Reserve for \${type}`,
                     input: 'select',
                     inputOptions: options,
                     confirmButtonColor: '#eab308'
                 });
 
                 if (id) {
-                    const bookRes = await fetch(`${API_BASE}/book/${slotId}/${id}/${type}`, { method: 'POST' });
+                    const bookRes = await fetch(`\${API_BASE}/book/\${slotId}/\${id}/\${type}`, { method: 'POST' });
                     if (bookRes.ok) {
                         Swal.fire({ icon: 'success', title: 'Reserved!', timer: 1500 });
                         loadData();
@@ -1030,7 +1031,7 @@
         async function handleEntrySpecific(slotId, slotNumber) {
             const { value: v } = await Swal.fire({
                 title: 'Vehicle Entry',
-                text: `Parking into Slot ${slotNumber}`,
+                text: `Parking into Slot \${slotNumber}`,
                 html: `
                     <div class="space-y-4">
                         <input id="vn" class="swal2-input !m-0 !w-full" placeholder="Number Plate (e.g. ABC1234)">
@@ -1056,7 +1057,7 @@
             });
 
             if (v) {
-                const res = await fetch(`${API_BASE}/tickets/entry`, { 
+                const res = await fetch(`\${API_BASE}/tickets/entry`, { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
                     body: JSON.stringify({ ...v, preferredSlotId: slotId }) 
@@ -1067,7 +1068,7 @@
         }
 
         async function toggleBooking(slotId, isCurrentlyBooked) {
-            const endpoint = isCurrentlyBooked ? `${API_BASE}/staff/unbook/${slotId}/${userId}` : `${API_BASE}/staff/book/${slotId}/${userId}`;
+            const endpoint = isCurrentlyBooked ? `\${API_BASE}/staff/unbook/\${slotId}/\${userId}` : `\${API_BASE}/staff/book/\${slotId}/\${userId}`;
             const res = await fetch(endpoint, { method: 'POST' });
             if (res.ok) { Swal.fire({ icon: 'success', title: isCurrentlyBooked ? 'Released' : 'Reserved', timer: 1000, showConfirmButton: false, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' }); loadData(); }
         }
@@ -1100,7 +1101,7 @@
             });
 
             if (v) {
-                const res = await fetch(`${API_BASE}/tickets/entry`, { 
+                const res = await fetch(`\${API_BASE}/tickets/entry`, { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
                     body: JSON.stringify(v) 
@@ -1111,15 +1112,15 @@
         }
 
         async function handleExit(id, number) {
-            if ((await Swal.fire({ title: 'Process Exit?', text: `Slot ${number}`, showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' })).isConfirmed) {
-                const res = await fetch(`${API_BASE}/tickets/exit/${id}`, { method: 'POST' });
+            if ((await Swal.fire({ title: 'Process Exit?', text: `Slot \${number}`, showCancelButton: true, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' })).isConfirmed) {
+                const res = await fetch(`\${API_BASE}/tickets/exit/\${id}`, { method: 'POST' });
                 if (res.ok) { 
                     const t = await res.json(); 
                     loadData();
                     
                     Swal.fire({
                         title: 'Exit Processed',
-                        text: `Total Fee: $${t.amount.toFixed(2)}`,
+                        text: `Total Fee: $\${t.amount.toFixed(2)}`,
                         icon: 'success',
                         showCancelButton: true,
                         confirmButtonText: 'Print Receipt',
@@ -1172,39 +1173,39 @@
             
             doc.setFontSize(14);
             doc.setFont("helvetica", "bold");
-            doc.text(`TOTAL FEE: $${t.amount.toFixed(2)}`, 40, y, { align: 'center' });
+            doc.text(`TOTAL FEE: $\${t.amount.toFixed(2)}`, 40, y, { align: 'center' });
             
             y += 15;
             doc.setFontSize(12);
             doc.setTextColor(100, 116, 139);
             doc.text("Thank you", 40, y, { align: 'center' });
             
-            doc.save(`receipt_${t.vehicleNumber}_${Date.now()}.pdf`);
+            doc.save(`receipt_\${t.vehicleNumber}_\${Date.now()}.pdf`);
         }
 
         async function updateRate() {
             const r = document.getElementById('input-hourly-rate').value;
-            await fetch(`${API_BASE}/admin/rate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rate: parseFloat(r) }) });
+            await fetch(`\${API_BASE}/admin/rate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rate: parseFloat(r) }) });
             Swal.fire({ title: 'Updated', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
         }
 
         async function updateSlotCount() {
             const c = document.getElementById('input-slot-count').value;
-            const res = await fetch(`${API_BASE}/admin/slots/count`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ count: parseInt(c) }) });
+            const res = await fetch(`\${API_BASE}/admin/slots/count`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ count: parseInt(c) }) });
             if (res.ok) { Swal.fire({ title: 'Updated', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' }); loadData(); }
         }
 
         async function changeAdminPassword() {
             const { value: p } = await Swal.fire({ title: 'Change Admin Password', input: 'password', showCancelButton: true, inputPlaceholder: 'Enter new password', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
             if (p) {
-                const res = await fetch(`${API_BASE}/admin/password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: p }) });
+                const res = await fetch(`\${API_BASE}/admin/password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: p }) });
                 if (res.ok) Swal.fire({ title: 'Success', icon: 'success', background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' });
             }
         }
 
         async function downloadReport() {
             try {
-                const response = await fetch(`${API_BASE}/admin/report/daily`);
+                const response = await fetch(`\${API_BASE}/admin/report/daily`);
                 const data = await response.json();
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
@@ -1214,11 +1215,11 @@
                 doc.autoTable({
                     startY: 50,
                     head: [['Metric', 'Value']],
-                    body: [['Total Revenue', `$${data.revenue.toFixed(2)}`], ['Vehicle Entries', data.entries.toString()], ['Vehicle Exits', data.exits.toString()], ['Staff Logins', data.logins.length.toString()]],
+                    body: [['Total Revenue', `$\${data.revenue.toFixed(2)}`], ['Vehicle Entries', data.entries.toString()], ['Vehicle Exits', data.exits.toString()], ['Staff Logins', data.logins.length.toString()]],
                     theme: 'striped',
                     headStyles: { fillColor: [37, 99, 235] }
                 });
-                doc.save(`daily_report_${data.date}.pdf`);
+                doc.save(`daily_report_\${data.date}.pdf`);
             } catch (err) { console.error(err); }
         }
 
@@ -1228,7 +1229,7 @@
             lucide.createIcons();
         }
 
-        function logout() { sessionStorage.clear(); window.location.href = 'login.html'; }
+        function logout() { sessionStorage.clear(); window.location.href = 'login'; }
 
         // Initial tab load based on permissions
         applyPermissions();

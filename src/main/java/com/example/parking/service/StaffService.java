@@ -24,6 +24,9 @@ public class StaffService {
     }
 
     public Staff addStaff(Staff staff) {
+        if (staff.getUsername() == null || staff.getUsername().isEmpty()) {
+            throw new RuntimeException("Username is required");
+        }
         if (fileRepository.findStaffByUsername(staff.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists");
         }

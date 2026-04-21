@@ -1,1 +1,7 @@
-[ ]
+[ {
+  "id" : 1,
+  "name" : "shihaz shaheem",
+  "email" : "shihaz3@gmail.com",
+  "joinDate" : "2026-04-20",
+  "active" : true
+} ]
